@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-albania.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
 import { Link } from "react-router-dom";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 
 async function testSupabase() {
@@ -20,8 +20,23 @@ async function testSupabase() {
 
 
 const Index = () => {
-    useEffect(() => {
-    testSupabase()
+    useEffect(() => { testSupabase() }, [])
+
+  const [featuredLessons, setFeaturedLessons] = useState<{ slug: string; title: string; summary: string; cover_image_url: string | null }[] | null>(null);
+  const [lessonsError, setLessonsError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const client = supabase as any;
+      const { data, error } = await client
+        .from('lessons')
+        .select('slug, title, summary, cover_image_url')
+        .eq('published', true)
+        .order('title', { ascending: true })
+        .limit(4);
+      if (error) setLessonsError(error.message);
+      else setFeaturedLessons(data);
+    };
+    fetchFeatured();
   }, [])
 
   return (
@@ -45,6 +60,7 @@ const Index = () => {
             <div className="mt-6 flex gap-3">
               <Link to="/onboarding"><Button variant="hero" size="lg">Pick your dialect</Button></Link>
               <Link to="/explore"><Button variant="outline" size="lg">Explore culture</Button></Link>
+              <Link to="/cities"><Button variant="secondary" size="lg">Cities</Button></Link>
             </div>
           </div>
         </div>
@@ -93,6 +109,49 @@ const Index = () => {
           </CardContent>
         </Card>
       </section>
+
+      {featuredLessons === null && !lessonsError && (
+        <section className="container mx-auto mt-12">
+          <h2 className="text-2xl font-bold mb-4">Featured Lessons</h2>
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        </section>
+      )}
+
+      {lessonsError && (
+        <section className="container mx-auto mt-12">
+          <h2 className="text-2xl font-bold mb-4">Featured Lessons</h2>
+          <p className="text-sm text-destructive">Error: {lessonsError}</p>
+        </section>
+      )}
+
+      {featuredLessons && featuredLessons.length > 0 && (
+        <section className="container mx-auto mt-12">
+          <h2 className="text-2xl font-bold mb-4">Featured Lessons</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredLessons.map((l) => (
+              <Card key={l.slug}>
+                <CardContent className="p-0">
+                  <img
+                    src={l.cover_image_url || '/placeholder.svg'}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
+                    alt={`${l.title} cover image`}
+                    loading="lazy"
+                    className="w-full h-40 object-cover rounded-t-lg"
+                  />
+                  <div className="p-4">
+                    <h3 className="font-semibold mb-1">{l.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
+                    <div className="mt-3">
+                      <Link to={`/lessons/${l.slug}`} className="text-sm underline">Open lesson</Link>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
     </main>
   );
 };

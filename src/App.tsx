@@ -29,6 +29,7 @@ import AdminFigures from "./pages/admin/AdminFigures";
 import AdminTraditions from "./pages/admin/AdminTraditions";
 import AdminVocab from "./pages/admin/AdminVocab";
 import AdminQuizzes from "./pages/admin/AdminQuizzes";
+import Cities from "./pages/Cities";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/cities" element={<Cities />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/onboarding" element={<Onboarding />} />
 
