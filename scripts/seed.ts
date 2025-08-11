@@ -1,6 +1,7 @@
 // Seed script: reads JSON files in supabase/seed and upserts into Supabase tables
 // Usage: pnpm ts-node scripts/seed.ts
 
+import 'dotenv/config';
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
