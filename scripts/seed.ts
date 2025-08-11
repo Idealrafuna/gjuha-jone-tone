@@ -2,6 +2,9 @@
 // Usage: pnpm ts-node scripts/seed.ts
 
 import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local', override: true });
+
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
