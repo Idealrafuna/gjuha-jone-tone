@@ -1,6 +1,26 @@
-{
-  "cities": [
-    {"slug": "tirana", "name": "Tirana", "country": "Albania", "region": "Central", "summary": "Capital city of Albania.", "history_markdown": "Tirana grew rapidly in the 20th century...", "dialect_notes": "Tosk features dominate.", "notable_people": ["Ismail Kadare"], "image_url": "images/cities/tirana.jpg", "published": true},
-    {"slug": "prishtina", "name": "Prishtina", "country": "Kosova", "region": "Kosova", "summary": "Capital of Kosova.", "history_markdown": "Prishtina is a cultural hub...", "dialect_notes": "Gheg features dominate.", "notable_people": ["Nexhmije Pagarusha"], "image_url": "images/cities/prishtina.jpg", "published": true}
-  ]
-}
+[
+  {
+    "slug": "tirana",
+    "name": "Tirana",
+    "country": "Albania",
+    "region": "Central",
+    "summary": "Capital city since 1920; vibrant arts, cafés, and boulevards.",
+    "history_markdown": "Founded in the 17th century; became Albania’s capital in 1920. Modern growth with colorful façades and public squares.",
+    "dialect_notes": "Standard Albanian (Tosk-based).",
+    "notable_people": ["Ismail Kadare"],
+    "image_url": "images/cities/tirane_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "prishtina",
+    "name": "Prishtina",
+    "country": "Kosovo",
+    "region": "Kosova",
+    "summary": "Administrative, cultural, and university center of Kosovo.",
+    "history_markdown": "Ottoman period roots; major growth in the 20th century; post-1999 transformation.",
+    "dialect_notes": "Gheg is dominant; colloquial forms common in daily speech.",
+    "notable_people": ["Nexhmije Pagarusha", "Mira Murati"],
+    "image_url": "images/cities/prishtina_placeholder.jpg",
+    "published": true
+  }
+]

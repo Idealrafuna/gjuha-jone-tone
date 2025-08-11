@@ -1,6 +1,12 @@
-{
-  "traditions": [
-    {"slug": "besa", "name": "Besa", "theme": "Ethics", "summary": "Word of honor and hospitality.", "detail_markdown": "Besa is a cornerstone of Albanian culture...", "etiquette_markdown": "Keep promises, respect guests.", "image_url": "images/traditions/besa.jpg", "published": true},
-    {"slug": "dita-e-flamurit", "name": "Dita e Flamurit", "theme": "Holiday", "summary": "Independence Day (Nov 28).", "detail_markdown": "Celebrations across Albanian lands...", "etiquette_markdown": "Display the flag respectfully.", "image_url": "images/traditions/ditaeFlamurit.jpg", "published": true}
-  ]
-}
+[
+  {
+    "slug": "besa",
+    "name": "Besa",
+    "theme": "Ethics",
+    "summary": "A solemn pledge of honor and trust.",
+    "detail_markdown": "Besa underpins hospitality and protection of guests; historically vital in community relations.",
+    "etiquette_markdown": "Promises are kept; guests are honored.",
+    "image_url": "images/traditions/besa_placeholder.jpg",
+    "published": true
+  }
+]

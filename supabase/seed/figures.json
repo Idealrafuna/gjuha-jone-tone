@@ -1,6 +1,12 @@
-{
-  "figures": [
-    {"slug": "gjergj-kastrioti-skanderbeg", "name": "Gjergj Kastrioti Skanderbeg", "era": "15th century", "field": "Military", "bio_markdown": "Skanderbeg led a decades-long resistance...", "impact_markdown": "Symbol of resistance and national identity.", "image_url": "images/figures/skanderbeg.jpg", "published": true},
-    {"slug": "nene-tereza", "name": "Nënë Tereza", "era": "20th century", "field": "Humanitarian", "bio_markdown": "Mother Teresa worked with the poor in India...", "impact_markdown": "A global icon of compassion.", "image_url": "images/figures/nene-tereza.jpg", "published": true}
-  ]
-}
+[
+  {
+    "slug": "gjergj-kastrioti-skanderbeg",
+    "name": "Gjergj Kastrioti Skanderbeg",
+    "era": "15th century",
+    "field": "National Leader",
+    "bio_markdown": "Military commander who led the League of Lezhë against the Ottoman Empire.",
+    "impact_markdown": "Symbol of resistance and unity; central to Albanian identity.",
+    "image_url": "images/figures/skanderbeg_placeholder.jpg",
+    "published": true
+  }
+]

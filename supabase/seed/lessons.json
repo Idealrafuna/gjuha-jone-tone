@@ -1,6 +1,41 @@
-{
-  "lessons": [
-    {"slug": "greetings", "title": "Greetings", "level": "beginner", "summary": "Basic greetings.", "body_markdown": "Learn to greet in Gheg & Tosk.", "published": true, "cover_image_url": "images/lessons/greetings.jpg"},
-    {"slug": "family", "title": "Family", "level": "beginner", "summary": "Family words.", "body_markdown": "Talk about family.", "published": true, "cover_image_url": "images/lessons/family.jpg"}
-  ]
-}
+[
+  {
+    "slug": "greetings-01",
+    "title": "Greetings",
+    "level": "beginner",
+    "summary": "Say hello and introduce yourself.",
+    "body_markdown": "Start with simple greetings in both Gheg and Tosk.",
+    "published": true,
+    "cover_image_url": "images/lessons/greetings_placeholder.jpg",
+    "vocab": [
+      {
+        "base_term": "Hello",
+        "eng_gloss": "Hello",
+        "notes": "Common greeting",
+        "variants": [
+          {"dialect":"gheg","phrase":"Tung","ipa":"tuŋ","audio_url":"audio/lessons/hello_gheg_placeholder.mp3"},
+          {"dialect":"tosk","phrase":"Përshëndetje","ipa":"pərʃənˈdɛcjɛ","audio_url":"audio/lessons/hello_tosk_placeholder.mp3"}
+        ]
+      }
+    ],
+    "dialogues": [
+      {
+        "title": "Meeting someone",
+        "lines": [
+          {"order_index":1,"speaker":"A","dialect":"gheg","line":"Tung! Si je?","ipa":"tuŋ si jɛ","audio_url":"audio/lessons/line1_gheg_placeholder.mp3"},
+          {"order_index":2,"speaker":"B","dialect":"tosk","line":"Përshëndetje! Si je?","ipa":"pərʃənˈdɛcjɛ si jɛ","audio_url":"audio/lessons/line2_tosk_placeholder.mp3"}
+        ]
+      }
+    ],
+    "grammar_tips": [
+      {"title":"Gheg vs Tosk greeting forms","body_markdown":"Gheg often uses **Tung**; Tosk commonly uses **Përshëndetje**."}
+    ],
+    "quiz": {
+      "title":"Greetings Check",
+      "questions":[
+        {"type":"mcq","prompt":"Tung is more typical of which dialect?","explanation":"It’s common in Gheg.","answers":[{"label":"Gheg","is_correct":true},{"label":"Tosk","is_correct":false}]},
+        {"type":"truefalse","prompt":"Përshëndetje is Tosk-based standard.","explanation":"Correct in standard contexts.","answers":[{"label":"True","is_correct":true},{"label":"False","is_correct":false}]}
+      ]
+    }
+  }
+]
