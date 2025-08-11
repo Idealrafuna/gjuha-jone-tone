@@ -1,0 +1,6 @@
+{
+  "lessons": [
+    {"slug": "greetings", "title": "Greetings", "level": "beginner", "summary": "Basic greetings.", "body_markdown": "Learn to greet in Gheg & Tosk.", "published": true, "cover_image_url": "images/lessons/greetings.jpg"},
+    {"slug": "family", "title": "Family", "level": "beginner", "summary": "Family words.", "body_markdown": "Talk about family.", "published": true, "cover_image_url": "images/lessons/family.jpg"}
+  ]
+}
