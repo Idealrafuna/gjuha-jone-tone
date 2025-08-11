@@ -149,6 +149,9 @@ const Index = () => {
               </Card>
             ))}
           </div>
+          <div className="mt-4">
+            <Link to="/learn" className="underline">View all lessons</Link>
+          </div>
         </section>
       )}
 

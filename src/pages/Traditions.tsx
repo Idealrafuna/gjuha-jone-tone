@@ -1,55 +1,53 @@
 import { Seo } from "@/components/Seo";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
-const Learn = () => {
-  const [lessons, setLessons] = useState<Array<{ slug: string; title: string; level: string; summary: string; cover_image_url: string | null }>>([]);
+const Traditions = () => {
+  const [traditions, setTraditions] = useState<Array<{ slug: string; name: string; theme: string; summary: string; image_url: string | null }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLessons = async () => {
-      const client = supabase as any; // temporary type bypass until Supabase types are synced
+    const fetchTraditions = async () => {
+      const client = supabase as any; // temporary type bypass
       const { data, error } = await client
-        .from('lessons')
-        .select('slug, title, level, summary, cover_image_url')
+        .from('traditions')
+        .select('slug, name, theme, summary, image_url')
         .eq('published', true)
-        .order('title', { ascending: true });
+        .order('name', { ascending: true });
       if (error) setError(error.message);
-      else setLessons(data || []);
+      else setTraditions(data || []);
       setLoading(false);
     };
-    fetchLessons();
+    fetchTraditions();
   }, []);
 
   return (
     <main className="container mx-auto py-10">
-      <Seo title="Learn – Lessons" description="Browse all published lessons." canonical="/learn" />
-      <h1 className="text-3xl font-bold mb-4">Learn</h1>
+      <Seo title="Traditions – Albanian culture" description="Albanian traditions, etiquette, and themes." canonical="/traditions" />
+      <h1 className="text-3xl font-bold mb-4">Traditions</h1>
 
       {loading && <p className="text-sm text-muted-foreground">Loading...</p>}
       {error && <p className="text-sm text-destructive">Error: {error}</p>}
 
       {!loading && !error && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {lessons.map((l) => (
-            <Link key={l.slug} to={`/lessons/${l.slug}`} className="block">
+          {traditions.map((t) => (
+            <Link key={t.slug} to={`/traditions/${t.slug}`} className="block">
               <Card>
                 <CardContent className="p-0">
                   <img
-                    src={l.cover_image_url || '/placeholder.svg'}
+                    src={t.image_url || '/placeholder.svg'}
                     onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
-                    alt={`${l.title} cover image`}
+                    alt={`${t.name} image`}
                     loading="lazy"
                     className="w-full h-44 object-cover rounded-t-lg"
                   />
                   <div className="p-6">
-                    <div className="mb-2"><Badge variant="secondary">{l.level}</Badge></div>
-                    <h3 className="font-semibold mb-1">{l.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
+                    <h3 className="font-semibold mb-1">{t.name}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{t.summary}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -61,4 +59,4 @@ const Learn = () => {
   );
 };
 
-export default Learn;
+export default Traditions;

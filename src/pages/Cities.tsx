@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Cities = () => {
-  const [cities, setCities] = useState<Array<{ slug: string; name: string; summary: string; image_url: string | null }>>([]);
+  const [cities, setCities] = useState<Array<{ slug: string; name: string; country: string; region: string; summary: string; image_url: string | null }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +14,7 @@ const Cities = () => {
       const client = supabase as any; // temporary type bypass until Supabase types are synced
       const { data, error } = await client
         .from('cities')
-        .select('slug, name, summary, image_url')
+        .select('slug, name, country, region, summary, image_url')
         .eq('published', true)
         .order('name', { ascending: true });
 
@@ -41,7 +41,7 @@ const Cities = () => {
       {!loading && !error && (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cities.map((c) => (
-            <Link key={c.slug} to={`/culture/cities/${c.slug}`} className="block">
+            <Link key={c.slug} to={`/cities/${c.slug}`} className="block">
               <Card>
                 <CardContent className="p-0">
                   <img

@@ -30,6 +30,11 @@ import AdminTraditions from "./pages/admin/AdminTraditions";
 import AdminVocab from "./pages/admin/AdminVocab";
 import AdminQuizzes from "./pages/admin/AdminQuizzes";
 import Cities from "./pages/Cities";
+import CityDetail from "./pages/CityDetail";
+import Figures from "./pages/Figures";
+import FigureDetail from "./pages/FigureDetail";
+import Traditions from "./pages/Traditions";
+import TraditionDetail from "./pages/TraditionDetail";
 
 const queryClient = new QueryClient();
 
@@ -45,11 +50,16 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/cities" element={<Cities />} />
+          <Route path="/cities/:slug" element={<CityDetail />} />
+          <Route path="/figures" element={<Figures />} />
+          <Route path="/figures/:slug" element={<FigureDetail />} />
+          <Route path="/traditions" element={<Traditions />} />
+          <Route path="/traditions/:slug" element={<TraditionDetail />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/onboarding" element={<Onboarding />} />
 
           <Route path="/learn" element={<Learn />} />
-          <Route path="/learn/lessons/:slug" element={<LessonDetail />} />
+          <Route path="/lessons/:slug" element={<LessonDetail />} />
           <Route path="/learn/review" element={<Review />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />

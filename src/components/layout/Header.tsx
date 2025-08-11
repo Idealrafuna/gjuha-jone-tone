@@ -23,9 +23,9 @@ const Header = () => {
             <span className="inline-flex items-center gap-1"><Search className="size-4"/> Eksploro</span>
           </NavLink>
           <NavLink to="/learn" className={navItemClass}>Mëso</NavLink>
-          <NavLink to="/culture/cities" className={navItemClass}>Qytete</NavLink>
-          <NavLink to="/culture/figures" className={navItemClass}>Figura</NavLink>
-          <NavLink to="/culture/traditions" className={navItemClass}>Tradita</NavLink>
+          <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>
+          <NavLink to="/figures" className={navItemClass}>Figura</NavLink>
+          <NavLink to="/traditions" className={navItemClass}>Tradita</NavLink>
           <NavLink to="/dashboard" className={navItemClass}>Përparimi</NavLink>
         </div>
         <div className="flex items-center gap-2">
