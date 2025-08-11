@@ -8,5 +8,85 @@
     "impact_markdown": "Symbol of resistance and unity; central to Albanian identity.",
     "image_url": "images/figures/skanderbeg_placeholder.jpg",
     "published": true
+  },
+  {
+    "slug": "isa-boletini",
+    "name": "Isa Boletini",
+    "era": "Early 20th century",
+    "field": "Nationalist Leader",
+    "bio_markdown": "Prominent Albanian nationalist and guerrilla leader from Kosovo.",
+    "impact_markdown": "Symbol of Albanian resistance during the late Ottoman period and independence era.",
+    "image_url": "images/figures/isa_boletini_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "ismail-qemali",
+    "name": "Ismail Qemali",
+    "era": "Early 20th century",
+    "field": "Statesman",
+    "bio_markdown": "Leader of the Albanian Declaration of Independence in 1912.",
+    "impact_markdown": "First Prime Minister of independent Albania.",
+    "image_url": "images/figures/ismail_qemali_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "mother-teresa",
+    "name": "Mother Teresa",
+    "era": "20th century",
+    "field": "Humanitarian",
+    "bio_markdown": "Catholic nun and missionary of Albanian heritage, known for her charitable work in India.",
+    "impact_markdown": "Recipient of the Nobel Peace Prize for her humanitarian efforts.",
+    "image_url": "images/figures/mother_teresa_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "adem-jashari",
+    "name": "Adem Jashari",
+    "era": "Late 20th century",
+    "field": "Military Commander",
+    "bio_markdown": "Co-founder of the Kosovo Liberation Army (KLA).",
+    "impact_markdown": "Became a national hero for his role in the Kosovo War.",
+    "image_url": "images/figures/adem_jashari_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "ibrahim-rugova",
+    "name": "Ibrahim Rugova",
+    "era": "Late 20th century",
+    "field": "Political Leader",
+    "bio_markdown": "First President of Kosovo and advocate of peaceful resistance.",
+    "impact_markdown": "Known as the 'Gandhi of the Balkans' for his non-violent approach.",
+    "image_url": "images/figures/ibrahim_rugova_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "hasan-prishtina",
+    "name": "Hasan Prishtina",
+    "era": "Early 20th century",
+    "field": "Politician and Revolutionary",
+    "bio_markdown": "Key figure in the Albanian national movement and former Prime Minister of Albania.",
+    "impact_markdown": "Promoted Albanian independence and education reforms.",
+    "image_url": "images/figures/hasan_prishtina_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "gjergj-fishta",
+    "name": "Gjergj Fishta",
+    "era": "Late 19th - Early 20th century",
+    "field": "Writer and Poet",
+    "bio_markdown": "Franciscan friar and author of the Albanian national epic 'Lahuta e Malcís'.",
+    "impact_markdown": "Major figure in Albanian literature and national identity.",
+    "image_url": "images/figures/gjergj_fishta_placeholder.jpg",
+    "published": true
+  },
+  {
+    "slug": "ndre-mjeda",
+    "name": "Ndre Mjeda",
+    "era": "Late 19th - Early 20th century",
+    "field": "Poet and Linguist",
+    "bio_markdown": "Influential Albanian poet, priest, and linguist.",
+    "impact_markdown": "Contributed to Albanian literature and language standardization.",
+    "image_url": "images/figures/ndre_mjeda_placeholder.jpg",
+    "published": true
   }
 ]
