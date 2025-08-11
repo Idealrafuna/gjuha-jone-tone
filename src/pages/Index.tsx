@@ -4,8 +4,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-albania.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
 import { Link } from "react-router-dom";
+import { useEffect } from 'react'
+import { testSupabase } from '@/integrations/supabase/testSupabase'
+
 
 const Index = () => {
+    useEffect(() => {
+    testSupabase()
+  }, [])
+
   return (
     <main>
       <Seo
