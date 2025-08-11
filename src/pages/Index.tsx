@@ -8,13 +8,14 @@ import { useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 
 async function testSupabase() {
-  // @ts-ignore - bypass strict typing for this test
-  const { data, error } = await supabase
+  // Temporary types bypass until Supabase types are synced
+  const client = supabase as any;
+  const { data, error } = await client
     .from('lessons')
     .select('id, title')
-    .limit(3)
-
-  console.log("Supabase test →", { data, error })
+    .limit(3);
+  
+  console.log("Supabase test →", { data, error });
 }
 
 
