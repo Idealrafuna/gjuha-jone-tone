@@ -5,8 +5,16 @@ import heroImage from "@/assets/hero-albania.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
 import { Link } from "react-router-dom";
 import { useEffect } from 'react'
-import { testSupabase } from '@/integrations/supabase/testSupabase'
+import { supabase } from '@/integrations/supabase/client'
 
+async function testSupabase() {
+  const { data, error } = await supabase
+    .from('lessons')
+    .select('id, title')
+    .limit(3)
+
+  console.log({ data, error })
+}
 
 const Index = () => {
     useEffect(() => {
