@@ -1,23 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Volume2 } from "lucide-react";
-import * as React from "react";
 
-interface VoiceButtonProps {
-  ariaLabel?: string;
-  className?: string;
-}
-
-export const VoiceButton: React.FC<VoiceButtonProps> = ({ ariaLabel = "Play pronunciation", className }) => {
+export default function VoiceButton() {
   const { toast } = useToast();
-
   return (
     <Button
-      type="button"
-      variant="ghost"
+      variant="secondary"
       size="icon"
-      aria-label={ariaLabel}
-      className={className}
+      aria-label="Play pronunciation"
       onClick={() =>
         toast({
           title: "Audio coming soon",
@@ -25,9 +16,7 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({ ariaLabel = "Play pron
         })
       }
     >
-      <Volume2 className="h-4 w-4" />
+      <Volume2 className="h-5 w-5" />
     </Button>
   );
-};
-
-export default VoiceButton;
+}
