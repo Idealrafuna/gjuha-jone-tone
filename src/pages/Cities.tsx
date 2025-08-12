@@ -5,16 +5,25 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Cities = () => {
-  const [cities, setCities] = useState<Array<{ slug: string; name: string; country: string; region: string; summary: string; image_url: string | null }>>([]);
+  const [cities, setCities] = useState<Array<{ id: string; slug: string; name: string; summary: string; image_url: string | null }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Log which Supabase host we're using
+    const url = (supabase as any).supabaseUrl || (supabase as any).url || "";
+    try {
+      const host = url ? new URL(url).host : "unknown";
+      console.info("Using Supabase:", host);
+    } catch {
+      console.info("Using Supabase:", "unknown");
+    }
+
     const fetchCities = async () => {
       const client = supabase as any; // temporary type bypass until Supabase types are synced
       const { data, error } = await client
         .from('cities')
-        .select('id, slug, name, country, region, summary, image_url')
+        .select('id, slug, name, summary, image_url')
         .eq('published', true)
         .order('name', { ascending: true });
 

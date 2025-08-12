@@ -35,6 +35,7 @@ import Figures from "./pages/Figures";
 import FigureDetail from "./pages/FigureDetail";
 import Traditions from "./pages/Traditions";
 import TraditionDetail from "./pages/TraditionDetail";
+import DebugData from "./pages/DebugData";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const App = () => (
 
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/__debug" element={<DebugData />} />
 
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/lessons" element={<AdminLessons />} />

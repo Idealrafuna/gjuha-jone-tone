@@ -11,11 +11,20 @@ const Figures = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Log which Supabase host we're using
+    const url = (supabase as any).supabaseUrl || (supabase as any).url || "";
+    try {
+      const host = url ? new URL(url).host : "unknown";
+      console.info("Using Supabase:", host);
+    } catch {
+      console.info("Using Supabase:", "unknown");
+    }
+
     const fetchFigures = async () => {
       const client = supabase as any; // temporary type bypass
       const { data, error } = await client
         .from('figures')
-        .select('slug, name, era, field, image_url')
+        .select('id, slug, name, era, field, image_url')
         .eq('published', true)
         .order('name', { ascending: true });
       if (error) setError(error.message);
