@@ -130,18 +130,20 @@ export default function LessonsPage() {
   const dialectLabel = dialect === "gheg" ? "Gheg" : "Tosk";
 
   return (
-    <div className="container mx-auto max-w-5xl p-4 space-y-6">
-      <header className="flex items-start sm:items-center justify-between gap-3">
-        <h1 className="text-2xl sm:text-3xl font-bold">Lessons</h1>
-        <Badge variant="outline" className="text-xs sm:text-sm">Dialect: {dialectLabel}</Badge>
+    <div className="container mx-auto max-w-5xl px-4 py-6 space-y-6">
+      <header className="rounded-2xl bg-gradient-to-r from-[hsl(var(--primary)/0.06)] to-[hsl(var(--primary)/0.12)] p-5">
+        <div className="flex items-start sm:items-center justify-between gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold">Lessons</h1>
+          <Badge variant="outline" className="text-xs sm:text-sm">Dialect: {dialectLabel}</Badge>
+        </div>
       </header>
 
       {/* Level Tabs */}
       <Tabs value={level} onValueChange={(v) => setLevel(v as Level)}>
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="beginner">Beginner</TabsTrigger>
-          <TabsTrigger value="intermediate">Intermediate</TabsTrigger>
-          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+        <TabsList className="inline-flex w-full justify-center rounded-full bg-background/70 backdrop-blur p-1">
+          <TabsTrigger className="rounded-full font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" value="beginner">Beginner</TabsTrigger>
+          <TabsTrigger className="rounded-full font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" value="intermediate">Intermediate</TabsTrigger>
+          <TabsTrigger className="rounded-full font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" value="advanced">Advanced</TabsTrigger>
         </TabsList>
 
         {/* Content per level */}
@@ -157,7 +159,19 @@ export default function LessonsPage() {
               </Card>
             ) : activeLessons.length === 0 ? (
               <Card className="rounded-2xl">
-                <CardContent className="p-6 text-sm text-muted-foreground">No lessons yet for this level.</CardContent>
+                <CardContent className="p-6 text-sm text-muted-foreground flex items-center justify-between">
+                  <span>No lessons yet for this level.</span>
+                  <a
+                    onClick={() => {
+                      const levels: Level[] = ['beginner','intermediate','advanced'];
+                      const next = levels.find((lv) => lv !== level && byLevel[lv]?.length > 0);
+                      if (next) setLevel(next);
+                    }}
+                    className="text-sm font-medium underline cursor-pointer"
+                  >
+                    Explore other levels
+                  </a>
+                </CardContent>
               </Card>
             ) : (
               <>
@@ -174,7 +188,7 @@ export default function LessonsPage() {
                     <div className="text-sm text-muted-foreground">Lesson progress</div>
                     <div className="text-sm font-medium">100%</div>
                   </div>
-                  <Progress value={100} />
+                  <Progress value={100} className="h-3 bg-muted" />
                 </div>
 
                 {/* Vocab list */}
@@ -195,10 +209,10 @@ export default function LessonsPage() {
                     {vocab.map((row) => {
                       const picked = pickVariant(row, dialect);
                       return (
-                        <Card key={row.id} className="rounded-2xl shadow-sm">
+                        <Card key={row.id} className="rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full">
                           <CardContent className="p-4 flex items-start justify-between gap-3">
                             <div>
-                              <div className="font-semibold text-lg">{picked.phrase}</div>
+                              <div className="font-semibold text-xl">{picked.phrase}</div>
                               <div className="text-sm text-muted-foreground">
                                 EN: {row.eng_gloss}
                                 {picked.ipa && <span className="ml-2 text-xs">/{picked.ipa}/</span>}
@@ -242,10 +256,20 @@ function LessonSubTabs({
 }) {
   const value = activeLessonId ?? (lessons[0]?.id ?? "");
   return (
-    <Tabs value={value} onValueChange={onChange}>
-      <TabsList className="w-full overflow-x-auto whitespace-nowrap">
+    <Tabs value={value} onValueChange={onChange} onKeyDown={(e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const idx = lessons.findIndex((l) => l.id === value);
+        if (idx > -1) {
+          const next = e.key === 'ArrowRight'
+            ? lessons[(idx + 1) % lessons.length].id
+            : lessons[(idx - 1 + lessons.length) % lessons.length].id;
+          onChange(next);
+        }
+      }
+    }}>
+      <TabsList className="sticky top-14 z-10 bg-background/80 backdrop-blur rounded-xl w-full overflow-x-auto whitespace-nowrap px-2">
         {lessons.map((l) => (
-          <TabsTrigger key={l.id} value={l.id} className="whitespace-nowrap">
+          <TabsTrigger key={l.id} value={l.id} className="whitespace-nowrap rounded-full font-medium data-[state=active]:bg-muted">
             {l.title}
           </TabsTrigger>
         ))}

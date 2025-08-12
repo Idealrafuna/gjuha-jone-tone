@@ -6,9 +6,10 @@ export default function VoiceButton() {
   const { toast } = useToast();
   return (
     <Button
-      variant="secondary"
+      variant="ghost"
       size="icon"
       aria-label="Play pronunciation"
+      className="rounded-full border"
       onClick={() =>
         toast({
           title: "Audio coming soon",

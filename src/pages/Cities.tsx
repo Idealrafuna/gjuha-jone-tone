@@ -14,7 +14,7 @@ const Cities = () => {
       const client = supabase as any; // temporary type bypass until Supabase types are synced
       const { data, error } = await client
         .from('cities')
-        .select('slug, name, country, region, summary, image_url')
+        .select('id, slug, name, country, region, summary, image_url')
         .eq('published', true)
         .order('name', { ascending: true });
 
