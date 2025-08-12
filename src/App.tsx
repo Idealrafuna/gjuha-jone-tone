@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Header from "./components/layout/Header";
@@ -95,8 +96,6 @@ const App = () => (
 function OnboardingRedirector() {
   // Redirect to onboarding the first time the app opens (from home)
   // Uses localStorage flag set when onboarding completes
-  const { useEffect } = require("react");
-  const { useLocation, useNavigate } = require("react-router-dom");
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
