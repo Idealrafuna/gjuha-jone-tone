@@ -3,39 +3,160 @@
     "slug": "greetings-01",
     "title": "Greetings",
     "level": "beginner",
-    "summary": "Say hello and introduce yourself.",
-    "body_markdown": "Start with simple greetings in both Gheg and Tosk.",
+    "summary": "Say hello, goodbye, and introduce yourself in Gheg and Tosk.",
+    "body_markdown": "Learn to greet people in both Gheg and Tosk, from casual hellos to polite formalities.",
     "published": true,
     "cover_image_url": "images/lessons/greetings_placeholder.jpg",
     "vocab": [
       {
         "base_term": "Hello",
         "eng_gloss": "Hello",
-        "notes": "Common greeting",
+        "notes": "Casual or formal depending on variant",
         "variants": [
-          {"dialect":"gheg","phrase":"Tung","ipa":"tuŋ","audio_url":"audio/lessons/hello_gheg_placeholder.mp3"},
-          {"dialect":"tosk","phrase":"Përshëndetje","ipa":"pərʃənˈdɛcjɛ","audio_url":"audio/lessons/hello_tosk_placeholder.mp3"}
+          {"dialect": "gheg", "phrase": "Tung", "ipa": "tuŋ", "audio_url": "", "voice_button": true},
+          {"dialect": "tosk", "phrase": "Përshëndetje", "ipa": "pərʃənˈdɛcjɛ", "audio_url": "", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "Good morning",
+        "eng_gloss": "Good morning",
+        "notes": "Used until late morning",
+        "variants": [
+          {"dialect": "both", "phrase": "Mirëmëngjes", "ipa": "miɾəˈməɲcɛs", "audio_url": "", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "Good evening",
+        "eng_gloss": "Good evening",
+        "notes": "Used after sunset",
+        "variants": [
+          {"dialect": "both", "phrase": "Mirëmbrëma", "ipa": "miɾəmˈbɾəmə", "audio_url": "", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "Goodbye",
+        "eng_gloss": "Goodbye",
+        "notes": "Neutral farewell",
+        "variants": [
+          {"dialect": "both", "phrase": "Mirupafshim", "ipa": "miɾuˈpafʃim", "audio_url": "", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "See you",
+        "eng_gloss": "See you",
+        "notes": "Casual farewell",
+        "variants": [
+          {"dialect": "both", "phrase": "Shihemi", "ipa": "ʃiˈhɛmi", "audio_url": "", "voice_button": true}
         ]
       }
     ],
     "dialogues": [
       {
-        "title": "Meeting someone",
+        "title": "Meeting someone casually",
         "lines": [
-          {"order_index":1,"speaker":"A","dialect":"gheg","line":"Tung! Si je?","ipa":"tuŋ si jɛ","audio_url":"audio/lessons/line1_gheg_placeholder.mp3"},
-          {"order_index":2,"speaker":"B","dialect":"tosk","line":"Përshëndetje! Si je?","ipa":"pərʃənˈdɛcjɛ si jɛ","audio_url":"audio/lessons/line2_tosk_placeholder.mp3"}
+          {"order_index": 1, "speaker": "A", "dialect": "gheg", "line": "Tung, a je mirë?", "ipa": "tuŋ a jɛ miːɾ", "audio_url": "", "voice_button": true},
+          {"order_index": 2, "speaker": "B", "dialect": "gheg", "line": "Mirë, faleminderit. Po ti?", "ipa": "miːɾ falɛminˈdɛɾit pɔ ti", "audio_url": "", "voice_button": true}
         ]
       }
     ],
     "grammar_tips": [
-      {"title":"Gheg vs Tosk greeting forms","body_markdown":"Gheg often uses **Tung**; Tosk commonly uses **Përshëndetje**."}
+      {"title": "Gheg vs Tosk greeting forms", "body_markdown": "Gheg often uses **Tung**; Tosk prefers **Përshëndetje**. Both share phrases like *Mirëmëngjes*."}
     ],
     "quiz": {
-      "title":"Greetings Check",
-      "questions":[
-        {"type":"mcq","prompt":"Tung is more typical of which dialect?","explanation":"It’s common in Gheg.","answers":[{"label":"Gheg","is_correct":true},{"label":"Tosk","is_correct":false}]},
-        {"type":"truefalse","prompt":"Përshëndetje is Tosk-based standard.","explanation":"Correct in standard contexts.","answers":[{"label":"True","is_correct":true},{"label":"False","is_correct":false}]}
+      "title": "Greetings Check",
+      "questions": [
+        {"type": "mcq", "prompt": "Tung is more typical of which dialect?", "explanation": "It’s common in Gheg.", "answers": [{"label": "Gheg", "is_correct": true}, {"label": "Tosk", "is_correct": false}]},
+        {"type": "truefalse", "prompt": "Përshëndetje is Tosk-based standard.", "explanation": "Correct in standard contexts.", "answers": [{"label": "True", "is_correct": true}, {"label": "False", "is_correct": false}]}
       ]
     }
+  },
+  {
+    "slug": "alphabet-01",
+    "title": "Alphabet",
+    "level": "beginner",
+    "summary": "Learn the 36 letters of the Albanian alphabet.",
+    "body_markdown": "The Albanian alphabet has 36 letters. Each has a fixed pronunciation, making reading easier once learned.",
+    "published": true,
+    "cover_image_url": "images/lessons/alphabet_placeholder.jpg",
+    "vocab": [
+      {"base_term": "A", "eng_gloss": "a", "voice_button": true},
+      {"base_term": "B", "eng_gloss": "b", "voice_button": true},
+      {"base_term": "C", "eng_gloss": "ts", "voice_button": true},
+      {"base_term": "Ç", "eng_gloss": "ch", "voice_button": true},
+      {"base_term": "D", "eng_gloss": "d", "voice_button": true},
+      {"base_term": "DH", "eng_gloss": "th (this)", "voice_button": true},
+      {"base_term": "E", "eng_gloss": "e", "voice_button": true},
+      {"base_term": "Ë", "eng_gloss": "uh / schwa", "voice_button": true},
+      {"base_term": "F", "eng_gloss": "f", "voice_button": true},
+      {"base_term": "G", "eng_gloss": "g", "voice_button": true},
+      {"base_term": "Gj", "eng_gloss": "soft g", "voice_button": true},
+      {"base_term": "H", "eng_gloss": "h", "voice_button": true},
+      {"base_term": "I", "eng_gloss": "ee", "voice_button": true},
+      {"base_term": "J", "eng_gloss": "y", "voice_button": true},
+      {"base_term": "K", "eng_gloss": "k", "voice_button": true},
+      {"base_term": "L", "eng_gloss": "l", "voice_button": true},
+      {"base_term": "LL", "eng_gloss": "lh", "voice_button": true},
+      {"base_term": "M", "eng_gloss": "m", "voice_button": true},
+      {"base_term": "N", "eng_gloss": "n", "voice_button": true},
+      {"base_term": "NJ", "eng_gloss": "ny", "voice_button": true},
+      {"base_term": "O", "eng_gloss": "o", "voice_button": true},
+      {"base_term": "P", "eng_gloss": "p", "voice_button": true},
+      {"base_term": "Q", "eng_gloss": "ky", "voice_button": true},
+      {"base_term": "R", "eng_gloss": "r", "voice_button": true},
+      {"base_term": "RR", "eng_gloss": "rolled r", "voice_button": true},
+      {"base_term": "S", "eng_gloss": "s", "voice_button": true},
+      {"base_term": "SH", "eng_gloss": "sh", "voice_button": true},
+      {"base_term": "T", "eng_gloss": "t", "voice_button": true},
+      {"base_term": "TH", "eng_gloss": "th (think)", "voice_button": true},
+      {"base_term": "U", "eng_gloss": "oo", "voice_button": true},
+      {"base_term": "V", "eng_gloss": "v", "voice_button": true},
+      {"base_term": "X", "eng_gloss": "dz", "voice_button": true},
+      {"base_term": "XH", "eng_gloss": "j", "voice_button": true},
+      {"base_term": "Y", "eng_gloss": "ü", "voice_button": true},
+      {"base_term": "Z", "eng_gloss": "z", "voice_button": true},
+      {"base_term": "ZH", "eng_gloss": "zh", "voice_button": true}
+    ]
+  },
+  {
+    "slug": "numbers-01",
+    "title": "Numbers 1–10",
+    "level": "beginner",
+    "summary": "Learn to count from one to ten in Albanian.",
+    "body_markdown": "Counting in Albanian is simple once you learn the base numbers.",
+    "published": true,
+    "cover_image_url": "images/lessons/numbers_placeholder.jpg",
+    "vocab": [
+      {"base_term": "1", "eng_gloss": "Një", "voice_button": true},
+      {"base_term": "2", "eng_gloss": "Dy", "voice_button": true},
+      {"base_term": "3", "eng_gloss": "Tre", "voice_button": true},
+      {"base_term": "4", "eng_gloss": "Katër", "voice_button": true},
+      {"base_term": "5", "eng_gloss": "Pesë", "voice_button": true},
+      {"base_term": "6", "eng_gloss": "Gjashtë", "voice_button": true},
+      {"base_term": "7", "eng_gloss": "Shtatë", "voice_button": true},
+      {"base_term": "8", "eng_gloss": "Tetë", "voice_button": true},
+      {"base_term": "9", "eng_gloss": "Nëntë", "voice_button": true},
+      {"base_term": "10", "eng_gloss": "Dhjetë", "voice_button": true}
+    ]
+  },
+  {
+    "slug": "referential-words-01",
+    "title": "Referential Words",
+    "level": "beginner",
+    "summary": "Learn words like this, that, here, there, who, what, and why.",
+    "body_markdown": "These are everyday words used to point to things, ask questions, and give directions.",
+    "published": true,
+    "cover_image_url": "images/lessons/referential_placeholder.jpg",
+    "vocab": [
+      {"base_term": "Kjo", "eng_gloss": "This (feminine)", "voice_button": true},
+      {"base_term": "Ky", "eng_gloss": "This (masculine)", "voice_button": true},
+      {"base_term": "Ajo", "eng_gloss": "That (feminine)", "voice_button": true},
+      {"base_term": "Ai", "eng_gloss": "That (masculine)", "voice_button": true},
+      {"base_term": "Këtu", "eng_gloss": "Here", "voice_button": true},
+      {"base_term": "Aty", "eng_gloss": "There", "voice_button": true},
+      {"base_term": "Kush", "eng_gloss": "Who", "voice_button": true},
+      {"base_term": "Çfarë", "eng_gloss": "What", "voice_button": true},
+      {"base_term": "Pse", "eng_gloss": "Why", "voice_button": true},
+      {"base_term": "Si", "eng_gloss": "How", "voice_button": true}
+    ]
   }
 ]
