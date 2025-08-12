@@ -11,7 +11,7 @@ import About from "./pages/About";
 import Explore from "./pages/Explore";
 import SignIn from "./pages/SignIn";
 import Onboarding from "./pages/Onboarding";
-import Learn from "./pages/Learn";
+import LessonsPage from "./pages/LessonsPage";
 import LessonDetail from "./pages/LessonDetail";
 import Review from "./pages/Review";
 import CultureCities from "./pages/CultureCities";
@@ -58,7 +58,7 @@ const App = () => (
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/onboarding" element={<Onboarding />} />
 
-          <Route path="/learn" element={<Learn />} />
+          <Route path="/learn" element={<LessonsPage />} />
           <Route path="/lessons/:slug" element={<LessonDetail />} />
           <Route path="/learn/review" element={<Review />} />
 
