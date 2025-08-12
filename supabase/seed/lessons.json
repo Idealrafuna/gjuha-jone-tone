@@ -158,5 +158,152 @@
       {"base_term": "Pse", "eng_gloss": "Why", "voice_button": true},
       {"base_term": "Si", "eng_gloss": "How", "voice_button": true}
     ]
+  },
+  {
+    "slug": "directions-01",
+    "title": "Asking for Directions",
+    "level": "intermediate",
+    "summary": "Learn to ask and understand directions.",
+    "published": true,
+    "cover_image_url": "images/lessons/directions_placeholder.jpg",
+    "vocab": [
+      {
+        "base_term": "Where is...",
+        "variants": [
+          {"dialect": "tosk", "phrase": "Ku është...", "voice_button": true},
+          {"dialect": "gheg", "phrase": "Ku âsht...", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "How do I get to...",
+        "variants": [
+          {"dialect": "tosk", "phrase": "Si të shkoj te...", "voice_button": true},
+          {"dialect": "gheg", "phrase": "Qysh me shkue te...", "voice_button": true}
+        ]
+      },
+      {"base_term": "Right", "variants": [{"dialect": "both", "phrase": "Djathtas", "voice_button": true}]},
+      {"base_term": "Left", "variants": [{"dialect": "both", "phrase": "Majtas", "voice_button": true}]},
+      {"base_term": "Straight", "variants": [{"dialect": "both", "phrase": "Drejt", "voice_button": true}]},
+      {"base_term": "Near", "variants": [{"dialect": "both", "phrase": "Afër", "voice_button": true}]},
+      {"base_term": "Far", "variants": [{"dialect": "both", "phrase": "Larg", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "days-week-01",
+    "title": "Days of the Week",
+    "level": "intermediate",
+    "summary": "Learn the days of the week in Albanian.",
+    "published": true,
+    "cover_image_url": "images/lessons/days_placeholder.jpg",
+    "vocab": [
+      {"base_term": "Monday", "variants": [{"dialect": "both", "phrase": "E hënë", "voice_button": true}]},
+      {"base_term": "Tuesday", "variants": [{"dialect": "both", "phrase": "E martë", "voice_button": true}]},
+      {"base_term": "Wednesday", "variants": [{"dialect": "both", "phrase": "E mërkurë", "voice_button": true}]},
+      {"base_term": "Thursday", "variants": [{"dialect": "both", "phrase": "E enjte", "voice_button": true}]},
+      {"base_term": "Friday", "variants": [{"dialect": "both", "phrase": "E premte", "voice_button": true}]},
+      {"base_term": "Saturday", "variants": [{"dialect": "both", "phrase": "E shtunë", "voice_button": true}]},
+      {"base_term": "Sunday", "variants": [{"dialect": "both", "phrase": "E diel", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "colors-01",
+    "title": "Colors",
+    "level": "intermediate",
+    "summary": "Learn basic and advanced colors in Albanian.",
+    "published": true,
+    "cover_image_url": "images/lessons/colors_placeholder.jpg",
+    "vocab": [
+      {"base_term": "Red", "variants": [{"dialect": "both", "phrase": "E kuqe", "voice_button": true}]},
+      {"base_term": "White", "variants": [{"dialect": "both", "phrase": "E bardhë", "voice_button": true}]},
+      {"base_term": "Black", "variants": [{"dialect": "both", "phrase": "E zezë", "voice_button": true}]},
+      {"base_term": "Blue", "variants": [{"dialect": "both", "phrase": "Blu", "voice_button": true}]},
+      {"base_term": "Green", "variants": [{"dialect": "both", "phrase": "E gjelbër", "voice_button": true}]},
+      {"base_term": "Yellow", "variants": [{"dialect": "both", "phrase": "E verdhë", "voice_button": true}]},
+      {"base_term": "Pink", "variants": [{"dialect": "both", "phrase": "Rozë", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "telling-time-01",
+    "title": "Telling the Time",
+    "level": "intermediate",
+    "summary": "Learn how to ask and tell the time.",
+    "published": true,
+    "cover_image_url": "images/lessons/time_placeholder.jpg",
+    "vocab": [
+      {
+        "base_term": "What time is it?",
+        "variants": [
+          {"dialect": "tosk", "phrase": "Sa është ora?", "voice_button": true},
+          {"dialect": "gheg", "phrase": "Sa âsht ora?", "voice_button": true}
+        ]
+      },
+      {
+        "base_term": "It’s one o’clock",
+        "variants": [
+          {"dialect": "tosk", "phrase": "Ora është një", "voice_button": true},
+          {"dialect": "gheg", "phrase": "Ora âsht një", "voice_button": true}
+        ]
+      },
+      {"base_term": "Half", "variants": [{"dialect": "both", "phrase": "Gjysmë", "voice_button": true}]},
+      {"base_term": "Quarter", "variants": [{"dialect": "both", "phrase": "Çerek", "voice_button": true}]},
+      {"base_term": "Before noon", "variants": [{"dialect": "both", "phrase": "Paradite", "voice_button": true}]},
+      {"base_term": "Afternoon", "variants": [{"dialect": "both", "phrase": "Pasdite", "voice_button": true}]},
+      {"base_term": "Evening", "variants": [{"dialect": "both", "phrase": "Mbrëmje", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "proverbs-01",
+    "title": "Albanian Proverbs",
+    "level": "advanced",
+    "summary": "Learn famous Albanian proverbs and their meanings.",
+    "published": true,
+    "cover_image_url": "images/lessons/proverbs_placeholder.jpg",
+    "vocab": [
+      {"base_term": "A good friend is known in hard times.", "variants": [{"dialect": "both", "phrase": "Miku i mirë në ditë të vështirë njihet.", "voice_button": true}]},
+      {"base_term": "The tongue brings you to light, the tongue leads you to darkness.", "variants": [{"dialect": "both", "phrase": "Gjuha të nxjerr në dritë, gjuha të fut në errësirë.", "voice_button": true}]},
+      {"base_term": "Do good, find good.", "variants": [{"dialect": "both", "phrase": "Bëj mirë, gjej mirë.", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "idioms-01",
+    "title": "Idiomatic Expressions",
+    "level": "advanced",
+    "summary": "Learn common idioms that don’t translate literally.",
+    "published": true,
+    "cover_image_url": "images/lessons/idioms_placeholder.jpg",
+    "vocab": [
+      {"base_term": "He/she fainted", "variants": [{"dialect": "both", "phrase": "I ka rënë pika", "voice_button": true}]},
+      {"base_term": "He/she is being tricky", "variants": [{"dialect": "both", "phrase": "E ka me hile", "voice_button": true}]},
+      {"base_term": "It stands out", "variants": [{"dialect": "both", "phrase": "Bie në sy", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "formal-speech-01",
+    "title": "Formal Speech & Honorifics",
+    "level": "advanced",
+    "summary": "Speak with respect in formal and official situations.",
+    "published": true,
+    "cover_image_url": "images/lessons/formal_placeholder.jpg",
+    "vocab": [
+      {"base_term": "Sir", "variants": [{"dialect": "both", "phrase": "Zotëri", "voice_button": true}]},
+      {"base_term": "Madam", "variants": [{"dialect": "both", "phrase": "Zonjë", "voice_button": true}]},
+      {"base_term": "Honorable (masculine)", "variants": [{"dialect": "both", "phrase": "I nderuar", "voice_button": true}]},
+      {"base_term": "Honorable (feminine)", "variants": [{"dialect": "both", "phrase": "E nderuar", "voice_button": true}]}
+    ]
+  },
+  {
+    "slug": "holiday-phrases-01",
+    "title": "Holiday Greetings",
+    "level": "advanced",
+    "summary": "Traditional greetings for Albanian holidays.",
+    "published": true,
+    "cover_image_url": "images/lessons/holiday_placeholder.jpg",
+    "vocab": [
+      {"base_term": "Happy New Year!", "variants": [{"dialect": "both", "phrase": "Gëzuar Vitin e Ri!", "voice_button": true}]},
+      {"base_term": "Merry Christmas!", "variants": [{"dialect": "both", "phrase": "Gëzuar Krishtlindjet!", "voice_button": true}]},
+      {"base_term": "Happy Easter!", "variants": [{"dialect": "both", "phrase": "Gëzuar Pashkët!", "voice_button": true}]},
+      {"base_term": "Happy Birthday!", "variants": [{"dialect": "both", "phrase": "Urime për ditëlindjen!", "voice_button": true}]}
+    ]
   }
 ]
+
