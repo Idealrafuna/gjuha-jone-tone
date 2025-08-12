@@ -13,7 +13,7 @@ const Header = () => {
       <nav className="container mx-auto flex items-center justify-between h-16">
         <Link to="/" className="inline-flex items-center gap-2 font-bold text-lg">
           <span className="inline-block h-6 w-6 rounded-sm bg-primary" aria-hidden />
-          Mësuesi i Shqipërisë
+          BeAlbanian
         </Link>
         <div className="hidden md:flex items-center gap-1">
           <NavLink to="/about" className={navItemClass}>

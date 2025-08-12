@@ -31,6 +31,8 @@ export const Seo = ({ title, description, canonical }: SeoProps) => {
     if (title) document.title = title;
     if (description) ensureMeta("description", description);
     if (canonical) ensureLink("canonical", canonical);
+    // Basic page SEO improvements
+    ensureMeta("viewport", "width=device-width, initial-scale=1.0");
   }, [title, description, canonical]);
   return null;
 };

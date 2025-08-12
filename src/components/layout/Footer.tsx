@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="border-t mt-16">
       <div className="container mx-auto py-10 grid gap-6 md:grid-cols-3">
         <div>
-          <h3 className="font-semibold mb-2">Mësuesi i Shqipërisë</h3>
+          <h3 className="font-semibold mb-2">BeAlbanian</h3>
           <p className="text-sm text-muted-foreground">Learn Albanian, feel Albanian.</p>
         </div>
         <nav className="grid grid-cols-2 gap-4 text-sm">
@@ -15,7 +15,7 @@ const Footer = () => {
           <a href="/culture/traditions" className="hover:underline">Tradita</a>
         </nav>
         <div className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Mësuesi i Shqipërisë. All rights reserved.
+          © {new Date().getFullYear()} BeAlbanian. All rights reserved.
         </div>
       </div>
     </footer>

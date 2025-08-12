@@ -46,6 +46,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Header />
+        <OnboardingRedirector />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
@@ -90,5 +91,21 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+function OnboardingRedirector() {
+  // Redirect to onboarding the first time the app opens (from home)
+  // Uses localStorage flag set when onboarding completes
+  const { useEffect } = require("react");
+  const { useLocation, useNavigate } = require("react-router-dom");
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const onboarded = typeof window !== 'undefined' && localStorage.getItem("onboarded") === "true";
+    if (!onboarded && location.pathname === "/") {
+      navigate("/onboarding", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+  return null;
+}
 
 export default App;

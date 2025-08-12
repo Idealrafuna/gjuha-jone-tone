@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const SignIn = () => (
   <main className="container mx-auto py-10">
-    <Seo title="Sign in – Mësuesi i Shqipërisë" description="Sign in with magic link or OAuth." canonical="/sign-in" />
+    <Seo title="Sign in – BeAlbanian" description="Sign in with magic link or OAuth." canonical="/sign-in" />
     <h1 className="text-3xl font-bold mb-4">Sign in</h1>
     <Card>
       <CardContent className="p-6 grid gap-3">
