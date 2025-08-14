@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { BackButton } from "@/components/BackButton";
-import AvatarGuide, { AvatarKey } from "@/components/AvatarGuide";
+
 import { getRandomTip } from "@/data/culturalTips";
 import { Flame, Trophy, Heart, Zap } from "lucide-react";
 import { QuestionEngine, Question, PracticeItem, getSpacedRepetitionInterval, updateEase, VocabItem, QuizItem } from "@/components/practice/QuestionEngine";
@@ -52,10 +52,6 @@ export default function PracticePage() {
   const [hearts, setHearts] = useState(5);
   const [heartsEnabled] = useState(false); // Default disabled
   
-  // Avatar states
-  const [avatarEmotion, setAvatarEmotion] = useState<"idle" | "celebrate" | "nod">("idle");
-  const [showCulturalTip, setShowCulturalTip] = useState(false);
-  const [culturalTip, setCulturalTip] = useState("");
   
   // Modals
   const [showEndModal, setShowEndModal] = useState(false);
@@ -183,15 +179,12 @@ export default function PracticePage() {
     setIsCorrect(correct);
     setShowResult(true);
     
-    // Avatar reactions
-    setAvatarEmotion(correct ? "celebrate" : "nod");
-    setTimeout(() => setAvatarEmotion("idle"), 1200);
-    
     // Check for cultural tip (every 3-5 questions)
     if (sessionStats.questionsAnswered > 0 && sessionStats.questionsAnswered % 4 === 0) {
-      setCulturalTip(getRandomTip());
-      setShowCulturalTip(true);
-      setTimeout(() => setShowCulturalTip(false), 5000);
+      toast({
+        title: "Cultural Tip",
+        description: getRandomTip(),
+      });
     }
     
     // Update session stats
@@ -246,7 +239,6 @@ export default function PracticePage() {
 
   const handleNext = () => {
     setShowResult(false);
-    setShowCulturalTip(false);
     
     if (currentIndex >= questions.length - 1) {
       // Session complete
@@ -254,7 +246,6 @@ export default function PracticePage() {
       setShowEndModal(true);
     } else {
       setCurrentIndex(currentIndex + 1);
-      setAvatarEmotion("idle");
     }
   };
 
@@ -378,25 +369,14 @@ export default function PracticePage() {
         </CardContent>
       </Card>
 
-      {/* Avatar and Question */}
-      <div className="flex gap-4 items-start">
-        <div className="flex-shrink-0">
-          <AvatarGuide 
-            avatarKey={(localStorage.getItem("avatarKey") as AvatarKey) || "northern-woman"}
-            emotion={avatarEmotion}
-            size="md"
-            showSpeechBubble={showCulturalTip}
-            speechText={culturalTip}
-          />
-        </div>
-        <div className="flex-1">
-          <QuestionView
-            question={currentQuestion}
-            onAnswer={handleAnswer}
-            showResult={showResult}
-            isCorrect={isCorrect}
-          />
-        </div>
+      {/* Question */}
+      <div className="w-full">
+        <QuestionView
+          question={currentQuestion}
+          onAnswer={handleAnswer}
+          showResult={showResult}
+          isCorrect={isCorrect}
+        />
       </div>
 
       {/* Next button */}

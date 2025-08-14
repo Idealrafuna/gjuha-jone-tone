@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import AvatarGuide, { AvatarSelector, AvatarKey } from "@/components/AvatarGuide";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -23,23 +23,21 @@ type Dialect = "gheg" | "tosk";
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [name, setName] = useState("");
   const [region, setRegion] = useState<Region | null>(null);
   const [dialect, setDialect] = useState<Dialect>("gheg");
-  const [selectedAvatar, setSelectedAvatar] = useState<AvatarKey>("northern-woman");
+  
 
   // Load saved progress
   useEffect(() => {
     const savedName = localStorage.getItem("userName") || "";
     const savedRegion = localStorage.getItem("userRegion") as Region | null;
     const savedDialect = localStorage.getItem("userDialect") as Dialect | null;
-    const savedAvatar = localStorage.getItem("avatarKey") as AvatarKey | null;
     
     if (savedName) setName(savedName);
     if (savedRegion) setRegion(savedRegion);
     if (savedDialect) setDialect(savedDialect);
-    if (savedAvatar) setSelectedAvatar(savedAvatar);
   }, []);
 
   // Auto-suggest dialect based on region
@@ -48,12 +46,6 @@ const Onboarding = () => {
       const regionData = regions.find((r) => r.id === region);
       if (regionData?.suggest) {
         setDialect(regionData.suggest as Dialect);
-        // Auto-suggest avatar based on dialect
-        if (regionData.suggest === "gheg") {
-          setSelectedAvatar("northern-woman");
-        } else {
-          setSelectedAvatar("southern-woman");
-        }
       }
     }
   }, [region]);
@@ -63,7 +55,6 @@ const Onboarding = () => {
       case 1: return name.trim().length >= 2;
       case 2: return !!region;
       case 3: return true;
-      case 4: return true;
       default: return false;
     }
   };
@@ -72,38 +63,34 @@ const Onboarding = () => {
     // Save progress
     if (step === 1) localStorage.setItem("userName", name.trim());
     if (step === 2 && region) localStorage.setItem("userRegion", region);
-    if (step === 3) localStorage.setItem("userDialect", dialect);
+    if (step === 3) {
+      localStorage.setItem("userDialect", dialect);
+      localStorage.setItem("onboardingDone", "true");
+      navigate("/");
+      return;
+    }
     
-    if (step < 4) {
-      setStep((s) => (s + 1) as 1 | 2 | 3 | 4);
+    if (step < 3) {
+      setStep((s) => (s + 1) as 1 | 2 | 3);
     }
   };
 
   const handleBack = () => {
     if (step > 1) {
-      setStep((s) => (s - 1) as 1 | 2 | 3 | 4);
+      setStep((s) => (s - 1) as 1 | 2 | 3);
     }
   };
 
-  const handleFinish = () => {
-    localStorage.setItem("avatarKey", selectedAvatar);
-    localStorage.setItem("onboardingDone", "true");
-    navigate("/");
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && canNext()) {
-      if (step === 4) {
-        handleFinish();
-      } else {
-        handleNext();
-      }
+      handleNext();
     } else if (e.key === "Escape" && step > 1) {
       handleBack();
     }
   };
 
-  const progressValue = (step / 4) * 100;
+  const progressValue = (step / 3) * 100;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-rose-50 to-rose-100 dark:from-slate-900 dark:to-slate-800 p-4">
@@ -120,7 +107,7 @@ const Onboarding = () => {
           {/* Progress */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-muted-foreground">Step {step} of 4</span>
+              <span className="text-sm text-muted-foreground">Step {step} of 3</span>
               <span className="text-sm text-muted-foreground">{Math.round(progressValue)}%</span>
             </div>
             <Progress value={progressValue} className="h-2" />
@@ -203,14 +190,6 @@ const Onboarding = () => {
               </div>
             )}
 
-            {step === 4 && (
-              <div className="space-y-6">
-                <AvatarSelector 
-                  selectedAvatar={selectedAvatar}
-                  onAvatarChange={setSelectedAvatar}
-                />
-              </div>
-            )}
 
             {/* Navigation */}
             <div className="flex justify-between items-center mt-8 pt-6 border-t">
@@ -224,24 +203,14 @@ const Onboarding = () => {
                 Back
               </Button>
 
-              {step < 4 ? (
-                <Button
-                  onClick={handleNext}
-                  disabled={!canNext()}
-                  className="flex items-center gap-2"
-                >
-                  Next
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleFinish}
-                  className="flex items-center gap-2"
-                >
-                  Finish
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              )}
+              <Button
+                onClick={handleNext}
+                disabled={!canNext()}
+                className="flex items-center gap-2"
+              >
+                {step === 3 ? "Finish" : "Next"}
+                <ChevronRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </CardContent>

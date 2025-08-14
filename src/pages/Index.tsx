@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-tirana.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
-import AvatarGuide, { AvatarKey } from "@/components/AvatarGuide";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
@@ -24,15 +24,13 @@ const Index = () => {
   const [featuredLessons, setFeaturedLessons] = useState<{ slug: string; title: string; summary: string; cover_image_url: string | null }[] | null>(null);
   const [lessonsError, setLessonsError] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");
-  const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
+  
 
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
-    const savedAvatar = (localStorage.getItem("avatarKey") as AvatarKey) || "northern-woman";
     if (savedName) {
       setUserName(savedName);
     }
-    setAvatarKey(savedAvatar);
   }, []);
   useEffect(() => { testSupabase() }, [])
   
@@ -61,18 +59,6 @@ const Index = () => {
       <section className="relative overflow-hidden rounded-2xl border">
         <img src={heroImage} alt="Skanderbeg Square in Tirana with the Skanderbeg statue" className="w-full h-[42vh] md:h-[56vh] object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/10 z-0" />
-        
-        {/* Avatar Guide - Always visible */}
-        <div className="absolute top-4 left-4 z-30">
-          <AvatarGuide 
-            avatarKey={avatarKey}
-            emotion="idle"
-            size="lg"
-            showSpeechBubble={Boolean(userName)}
-            speechText={userName ? `Përshëndetje, ${userName}! Ready to continue learning?` : ""}
-            forceVisible={true}
-          />
-        </div>
         
         <div className="absolute inset-0 flex items-end md:items-center z-20">
           <div className="container mx-auto p-6 md:p-10">
