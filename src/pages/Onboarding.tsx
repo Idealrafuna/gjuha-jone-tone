@@ -2,6 +2,7 @@ import { Seo } from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DialectToggle, Dialect } from "@/components/DialectToggle";
+import { AvatarSelector, AvatarGuide } from "@/components/AvatarGuide";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,11 +18,13 @@ const regions = [
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<0 | 1 | 2>(0);
+  const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
   const [name, setName] = useState("");
   const [region, setRegion] = useState<typeof regions[number]["id"] | null>(null);
   const suggested = regions.find((r) => r.id === region)?.suggest as Dialect | undefined;
   const [dialect, setDialect] = useState<Dialect>(suggested ?? "tosk");
+  const [avatarGender, setAvatarGender] = useState<"male" | "female">("female");
+  const [avatarStyle, setAvatarStyle] = useState<"gheg" | "tosk">("gheg");
 
   useEffect(() => {
     if (region && suggested && dialect !== suggested) {
@@ -32,6 +35,7 @@ const Onboarding = () => {
   const canNext = () => {
     if (step === 0) return name.trim().length > 0;
     if (step === 1) return !!region;
+    if (step === 2) return true;
     return true;
   };
 
@@ -39,6 +43,8 @@ const Onboarding = () => {
     localStorage.setItem("userName", name.trim());
     if (region) localStorage.setItem("userRegion", region);
     localStorage.setItem("userDialect", dialect);
+    localStorage.setItem("avatarGender", avatarGender);
+    localStorage.setItem("avatarStyle", avatarStyle);
     localStorage.setItem("onboarded", "true");
     navigate("/");
   };
@@ -50,7 +56,7 @@ const Onboarding = () => {
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
           <CardContent className="p-6">
-            <h3 className="font-semibold mb-3">{step === 0 ? "Your name" : step === 1 ? "Choose your region" : "Dialect preference"}</h3>
+            <h3 className="font-semibold mb-3">{step === 0 ? "Your name" : step === 1 ? "Choose your region" : step === 2 ? "Dialect preference" : "Choose your guide"}</h3>
             {step === 0 && (
               <div className="grid gap-2">
                 <label className="text-sm text-muted-foreground" htmlFor="name">What should we call you?</label>
@@ -76,14 +82,25 @@ const Onboarding = () => {
                 <p className="text-sm text-muted-foreground mt-3">Suggested: {suggested ?? "—"}. You can change anytime.</p>
               </div>
             )}
+            {step === 3 && (
+              <div>
+                <AvatarSelector 
+                  selectedGender={avatarGender}
+                  selectedStyle={avatarStyle}
+                  onGenderChange={setAvatarGender}
+                  onStyleChange={setAvatarStyle}
+                />
+                <p className="text-sm text-muted-foreground mt-3">Your guide will help you learn and celebrate Albanian culture!</p>
+              </div>
+            )}
             <div className="mt-6 flex items-center gap-2">
               {step > 0 && (
-                <Button variant="outline" onClick={() => setStep((s) => (s - 1) as 0 | 1 | 2)}>Back</Button>
+                <Button variant="outline" onClick={() => setStep((s) => (s - 1) as 0 | 1 | 2 | 3)}>Back</Button>
               )}
-              {step < 2 && (
-                <Button variant="hero" disabled={!canNext()} onClick={() => setStep((s) => (s + 1) as 0 | 1 | 2)}>Next</Button>
+              {step < 3 && (
+                <Button variant="hero" disabled={!canNext()} onClick={() => setStep((s) => (s + 1) as 0 | 1 | 2 | 3)}>Next</Button>
               )}
-              {step === 2 && (
+              {step === 3 && (
                 <Button className="mt-0" variant="hero" onClick={handleSave}>Save and continue</Button>
               )}
             </div>
@@ -97,7 +114,18 @@ const Onboarding = () => {
               <li className={step >= 0 ? "text-foreground" : ""}>Name</li>
               <li className={step >= 1 ? "text-foreground" : ""}>Region</li>
               <li className={step >= 2 ? "text-foreground" : ""}>Dialect</li>
+              <li className={step >= 3 ? "text-foreground" : ""}>Guide</li>
             </ol>
+            {step >= 3 && (
+              <div className="mt-4 flex justify-center">
+                <AvatarGuide 
+                  emotion="encouraging" 
+                  size="sm"
+                  showSpeechBubble={true}
+                  speechText="Mirë se vini! Let's learn together!"
+                />
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

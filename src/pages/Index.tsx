@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-tirana.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
+import { AvatarGuide } from "@/components/AvatarGuide";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
@@ -24,6 +25,14 @@ const Index = () => {
 
   const [featuredLessons, setFeaturedLessons] = useState<{ slug: string; title: string; summary: string; cover_image_url: string | null }[] | null>(null);
   const [lessonsError, setLessonsError] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>("");
+
+  useEffect(() => {
+    const savedName = localStorage.getItem("userName");
+    if (savedName) {
+      setUserName(savedName);
+    }
+  }, []);
   useEffect(() => {
     const fetchFeatured = async () => {
       const client = supabase as any;
@@ -49,6 +58,19 @@ const Index = () => {
       <section className="relative overflow-hidden rounded-2xl border">
         <img src={heroImage} alt="Skanderbeg Square in Tirana with the Skanderbeg statue" className="w-full h-[42vh] md:h-[56vh] object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/10" />
+        
+        {/* Avatar Welcome */}
+        {userName && (
+          <div className="absolute top-4 left-4 z-10">
+            <AvatarGuide 
+              emotion="encouraging"
+              size="md"
+              showSpeechBubble={true}
+              speechText={`Përshëndetje, ${userName}! Ready to continue learning?`}
+            />
+          </div>
+        )}
+        
         <div className="absolute inset-0 flex items-end md:items-center">
           <div className="container mx-auto p-6 md:p-10">
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight max-w-3xl">
