@@ -62,20 +62,19 @@ const Index = () => {
         <img src={heroImage} alt="Skanderbeg Square in Tirana with the Skanderbeg statue" className="w-full h-[42vh] md:h-[56vh] object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/10" />
         
-        {/* Avatar Welcome */}
-        {userName && (
-          <div className="absolute top-4 left-4 z-10">
-            <AvatarGuide 
-              avatarKey={avatarKey}
-              emotion="idle"
-              size="lg"
-              showSpeechBubble={true}
-              speechText={`Përshëndetje, ${userName}! Ready to continue learning?`}
-            />
-          </div>
-        )}
+        {/* Avatar Guide - Always visible */}
+        <div className="absolute top-4 left-4 z-30">
+          <AvatarGuide 
+            avatarKey={avatarKey}
+            emotion="idle"
+            size="lg"
+            showSpeechBubble={Boolean(userName)}
+            speechText={userName ? `Përshëndetje, ${userName}! Ready to continue learning?` : ""}
+            forceVisible={true}
+          />
+        </div>
         
-        <div className="absolute inset-0 flex items-end md:items-center">
+        <div className="absolute inset-0 flex items-end md:items-center z-10">
           <div className="container mx-auto p-6 md:p-10">
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight max-w-3xl">
               Learn Albanian, feel Albanian

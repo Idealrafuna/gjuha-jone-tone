@@ -13,6 +13,22 @@ interface AvatarGuideProps {
   showSpeechBubble?: boolean;
   speechText?: string;
   className?: string;
+  forceVisible?: boolean;
+}
+
+function FallbackCircle({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" className="rounded-full shadow-inner">
+      <defs>
+        <linearGradient id="alb" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="hsl(var(--muted))" />
+          <stop offset="100%" stopColor="hsl(var(--muted) / 0.8)" />
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="60" r="58" fill="url(#alb)" stroke="hsl(var(--border))" strokeWidth="2" />
+      <text x="60" y="68" textAnchor="middle" fontWeight="700" fontSize="28" fill="hsl(var(--primary))">AL</text>
+    </svg>
+  );
 }
 
 interface AvatarSelectorProps {
@@ -34,10 +50,13 @@ export default function AvatarGuide({
   size = "md", 
   showSpeechBubble = false,
   speechText = "",
-  className = ""
+  className = "",
+  forceVisible = true
 }: AvatarGuideProps) {
   const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
   const [animationData, setAnimationData] = useState(null);
+  const [posterSrc, setPosterSrc] = useState<string | null>(null);
+  const [showFallback, setShowFallback] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<Emotion>(emotion);
 
   useEffect(() => {
@@ -47,23 +66,30 @@ export default function AvatarGuide({
 
   useEffect(() => {
     setCurrentEmotion(emotion);
+    setShowFallback(false);
+    setPosterSrc(null);
   }, [emotion]);
 
-  // Load animation data
+  // Load animation data with triple fallback
   useEffect(() => {
     const loadAnimation = async () => {
+      const src = `/avatars/animated/${avatarKey}/${currentEmotion}.json`;
       try {
-        const response = await fetch(`/avatars/animated/${avatarKey}/${currentEmotion}.json`);
+        const response = await fetch(src);
         if (response.ok) {
           const data = await response.json();
           setAnimationData(data);
+          setPosterSrc(null);
+          setShowFallback(false);
         } else {
-          // Fallback to static image
+          console.warn("[AvatarGuide] Missing animation:", avatarKey, currentEmotion, src);
           setAnimationData(null);
+          setPosterSrc(`/avatars/animated/${avatarKey}/poster.png`);
         }
       } catch (error) {
-        console.log("Animation not found, using static image");
+        console.warn("[AvatarGuide] Animation fetch error:", error);
         setAnimationData(null);
+        setPosterSrc(`/avatars/animated/${avatarKey}/poster.png`);
       }
     };
     
@@ -79,7 +105,14 @@ export default function AvatarGuide({
     }
   };
 
-  const currentAvatar = avatarKey;
+  const getSizeNumber = () => {
+    switch (size) {
+      case "sm": return 80;
+      case "md": return 160;
+      case "lg": return 240;
+      default: return 160;
+    }
+  };
 
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
@@ -97,16 +130,19 @@ export default function AvatarGuide({
             loop={currentEmotion === "idle"}
             className="w-full h-full rounded-full"
           />
-        ) : (
+        ) : posterSrc ? (
           <img
-            src={`/avatars/animated/${currentAvatar}/poster.png`}
-            alt={`Albanian ${currentAvatar.replace('-', ' ')} in traditional dress showing ${currentEmotion} emotion`}
+            src={posterSrc}
+            alt={`Albanian ${avatarKey.replace('-', ' ')} in traditional dress showing ${currentEmotion} emotion`}
             className="w-full h-full object-cover rounded-full transition-all duration-500 ease-out"
             onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentAvatar}&backgroundColor=f0f0f0`;
+              console.warn("[AvatarGuide] Missing poster:", posterSrc);
+              setPosterSrc(null);
+              setShowFallback(true);
             }}
           />
+        ) : (
+          <FallbackCircle size={getSizeNumber()} />
         )}
       </div>
     </div>
@@ -152,7 +188,7 @@ export function AvatarSelector({
                   }`}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${option.key}&backgroundColor=f0f0f0`;
+                    target.style.display = 'none';
                   }}
                 />
               </div>
