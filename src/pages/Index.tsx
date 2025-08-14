@@ -60,7 +60,7 @@ const Index = () => {
       />
       <section className="relative overflow-hidden rounded-2xl border">
         <img src={heroImage} alt="Skanderbeg Square in Tirana with the Skanderbeg statue" className="w-full h-[42vh] md:h-[56vh] object-cover" loading="eager" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/10 z-0" />
         
         {/* Avatar Guide - Always visible */}
         <div className="absolute top-4 left-4 z-30">
@@ -74,7 +74,7 @@ const Index = () => {
           />
         </div>
         
-        <div className="absolute inset-0 flex items-end md:items-center z-10">
+        <div className="absolute inset-0 flex items-end md:items-center z-20">
           <div className="container mx-auto p-6 md:p-10">
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight max-w-3xl">
               Learn Albanian, feel Albanian

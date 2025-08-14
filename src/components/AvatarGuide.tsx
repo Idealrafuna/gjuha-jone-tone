@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import Lottie from "lottie-react";
 
 export type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
-type Emotion = "idle" | "happy" | "encouraging" | "sad" | "wave" | "nod" | "celebrate";
+type Emotion = "idle" | "wave" | "nod" | "celebrate";
 type Size = "sm" | "md" | "lg";
 
 interface AvatarGuideProps {
