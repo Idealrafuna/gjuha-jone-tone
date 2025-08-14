@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-tirana.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
-import AvatarGuide from "@/components/AvatarGuide";
+import AvatarGuide, { AvatarKey } from "@/components/AvatarGuide";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
@@ -21,18 +21,21 @@ async function testSupabase() {
 
 
 const Index = () => {
-    useEffect(() => { testSupabase() }, [])
-
   const [featuredLessons, setFeaturedLessons] = useState<{ slug: string; title: string; summary: string; cover_image_url: string | null }[] | null>(null);
   const [lessonsError, setLessonsError] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");
+  const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
 
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
+    const savedAvatar = (localStorage.getItem("avatarKey") as AvatarKey) || "northern-woman";
     if (savedName) {
       setUserName(savedName);
     }
+    setAvatarKey(savedAvatar);
   }, []);
+  useEffect(() => { testSupabase() }, [])
+  
   useEffect(() => {
     const fetchFeatured = async () => {
       const client = supabase as any;
@@ -63,6 +66,7 @@ const Index = () => {
         {userName && (
           <div className="absolute top-4 left-4 z-10">
             <AvatarGuide 
+              avatarKey={avatarKey}
               emotion="idle"
               size="lg"
               showSpeechBubble={true}

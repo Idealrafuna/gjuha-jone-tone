@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import AvatarGuide, { AvatarSelector } from "@/components/AvatarGuide";
+import AvatarGuide, { AvatarSelector, AvatarKey } from "@/components/AvatarGuide";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
+
 
 const regions = [
   { id: "kosova", label: "Kosova", suggest: "gheg" },

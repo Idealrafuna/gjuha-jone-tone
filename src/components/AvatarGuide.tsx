@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import Lottie from "lottie-react";
 
+export type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
 type Emotion = "idle" | "happy" | "encouraging" | "sad" | "wave" | "nod" | "celebrate";
 type Size = "sm" | "md" | "lg";
-type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
 
 interface AvatarGuideProps {
+  avatarKey?: AvatarKey;
   emotion?: Emotion;
   size?: Size;
   showSpeechBubble?: boolean;
   speechText?: string;
   className?: string;
-  avatarOverride?: AvatarKey;
 }
 
 interface AvatarSelectorProps {
@@ -29,23 +29,21 @@ const avatarOptions = [
 ];
 
 export default function AvatarGuide({ 
+  avatarKey: propAvatarKey,
   emotion = "idle", 
   size = "md", 
   showSpeechBubble = false,
   speechText = "",
-  className = "",
-  avatarOverride
+  className = ""
 }: AvatarGuideProps) {
   const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
   const [animationData, setAnimationData] = useState(null);
   const [currentEmotion, setCurrentEmotion] = useState<Emotion>(emotion);
 
   useEffect(() => {
-    const savedAvatar = localStorage.getItem("avatarKey") as AvatarKey | null;
-    if (savedAvatar && !avatarOverride) {
-      setAvatarKey(savedAvatar);
-    }
-  }, [avatarOverride]);
+    const savedAvatar = propAvatarKey || (localStorage.getItem("avatarKey") as AvatarKey) || "northern-woman";
+    setAvatarKey(savedAvatar);
+  }, [propAvatarKey]);
 
   useEffect(() => {
     setCurrentEmotion(emotion);
@@ -53,10 +51,9 @@ export default function AvatarGuide({
 
   // Load animation data
   useEffect(() => {
-    const currentAvatar = avatarOverride || avatarKey;
     const loadAnimation = async () => {
       try {
-        const response = await fetch(`/avatars/animated/${currentAvatar}/${currentEmotion}.json`);
+        const response = await fetch(`/avatars/animated/${avatarKey}/${currentEmotion}.json`);
         if (response.ok) {
           const data = await response.json();
           setAnimationData(data);
@@ -71,7 +68,7 @@ export default function AvatarGuide({
     };
     
     loadAnimation();
-  }, [currentEmotion, avatarKey, avatarOverride]);
+  }, [currentEmotion, avatarKey]);
 
   const getSizeClasses = () => {
     switch (size) {
@@ -82,7 +79,7 @@ export default function AvatarGuide({
     }
   };
 
-  const currentAvatar = avatarOverride || avatarKey;
+  const currentAvatar = avatarKey;
 
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
@@ -173,9 +170,9 @@ export function AvatarSelector({
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-4">Preview</p>
           <AvatarGuide 
+            avatarKey={selectedAvatar}
             size="lg"
             emotion={hoveredAvatar ? previewEmotion : "idle"}
-            avatarOverride={selectedAvatar}
           />
         </div>
       </div>

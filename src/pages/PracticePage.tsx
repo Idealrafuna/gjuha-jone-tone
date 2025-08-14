@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { BackButton } from "@/components/BackButton";
-import AvatarGuide from "@/components/AvatarGuide";
+import AvatarGuide, { AvatarKey } from "@/components/AvatarGuide";
 import { getRandomTip } from "@/data/culturalTips";
 import { Flame, Trophy, Heart, Zap } from "lucide-react";
 import { QuestionEngine, Question, PracticeItem, getSpacedRepetitionInterval, updateEase, VocabItem, QuizItem } from "@/components/practice/QuestionEngine";
@@ -382,6 +382,7 @@ export default function PracticePage() {
       <div className="flex gap-4 items-start">
         <div className="flex-shrink-0">
           <AvatarGuide 
+            avatarKey={(localStorage.getItem("avatarKey") as AvatarKey) || "northern-woman"}
             emotion={avatarEmotion}
             size="md"
             showSpeechBubble={showCulturalTip}
