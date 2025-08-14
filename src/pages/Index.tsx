@@ -63,7 +63,7 @@ const Index = () => {
         {userName && (
           <div className="absolute top-4 left-4 z-10">
             <AvatarGuide 
-              emotion="wave"
+              emotion="idle"
               size="lg"
               showSpeechBubble={true}
               speechText={`Përshëndetje, ${userName}! Ready to continue learning?`}

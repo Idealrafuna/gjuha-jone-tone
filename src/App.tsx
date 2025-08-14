@@ -96,16 +96,18 @@ const App = () => (
 );
 
 function OnboardingRedirector() {
-  // Redirect to onboarding the first time the app opens (from home)
-  // Uses localStorage flag set when onboarding completes
   const location = useLocation();
   const navigate = useNavigate();
+  
   useEffect(() => {
-    const onboarded = typeof window !== 'undefined' && localStorage.getItem("onboarded") === "true";
-    if (!onboarded && location.pathname === "/") {
+    const onboardingDone = typeof window !== 'undefined' && localStorage.getItem("onboardingDone") === "true";
+    
+    // Force all users to complete onboarding before accessing any page (except onboarding itself)
+    if (!onboardingDone && location.pathname !== "/onboarding") {
       navigate("/onboarding", { replace: true });
     }
   }, [location.pathname, navigate]);
+  
   return null;
 }
 

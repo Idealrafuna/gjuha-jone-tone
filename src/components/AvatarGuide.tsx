@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
+import Lottie from "lottie-react";
 
-type Emotion = "idle" | "happy" | "encouraging" | "sad" | "wave";
+type Emotion = "idle" | "happy" | "encouraging" | "sad" | "wave" | "nod" | "celebrate";
 type Size = "sm" | "md" | "lg";
 type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
 
@@ -11,7 +12,7 @@ interface AvatarGuideProps {
   showSpeechBubble?: boolean;
   speechText?: string;
   className?: string;
-  avatarOverride?: AvatarKey; // For preview in onboarding
+  avatarOverride?: AvatarKey;
 }
 
 interface AvatarSelectorProps {
@@ -36,6 +37,7 @@ export default function AvatarGuide({
   avatarOverride
 }: AvatarGuideProps) {
   const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
+  const [animationData, setAnimationData] = useState(null);
   const [currentEmotion, setCurrentEmotion] = useState<Emotion>(emotion);
 
   useEffect(() => {
@@ -49,22 +51,34 @@ export default function AvatarGuide({
     setCurrentEmotion(emotion);
   }, [emotion]);
 
+  // Load animation data
+  useEffect(() => {
+    const currentAvatar = avatarOverride || avatarKey;
+    const loadAnimation = async () => {
+      try {
+        const response = await fetch(`/avatars/animated/${currentAvatar}/${currentEmotion}.json`);
+        if (response.ok) {
+          const data = await response.json();
+          setAnimationData(data);
+        } else {
+          // Fallback to static image
+          setAnimationData(null);
+        }
+      } catch (error) {
+        console.log("Animation not found, using static image");
+        setAnimationData(null);
+      }
+    };
+    
+    loadAnimation();
+  }, [currentEmotion, avatarKey, avatarOverride]);
+
   const getSizeClasses = () => {
     switch (size) {
       case "sm": return "w-20 h-20";
       case "md": return "w-40 h-40";
       case "lg": return "w-60 h-60";
       default: return "w-40 h-40";
-    }
-  };
-
-  const getAnimationClasses = () => {
-    switch (currentEmotion) {
-      case "wave": return "animate-pulse";
-      case "happy": return "animate-bounce";
-      case "encouraging": return "animate-pulse";
-      case "sad": return "";
-      default: return "hover:scale-105";
     }
   };
 
@@ -79,25 +93,23 @@ export default function AvatarGuide({
         </Card>
       )}
       
-      <div className={`${getSizeClasses()} relative rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 p-2 shadow-lg transition-all duration-300 ${getAnimationClasses()}`}>
-        <img
-          src={`/avatars/${currentAvatar}.webp`}
-          alt={`Albanian ${currentAvatar.replace('-', ' ')} in traditional dress showing ${currentEmotion} emotion`}
-          className="w-full h-full object-cover rounded-full transition-all duration-500 ease-out"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentAvatar}&backgroundColor=f0f0f0`;
-          }}
-        />
-        
-        {/* Emotion indicator overlay */}
-        {currentEmotion !== "idle" && (
-          <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs animate-bounce">
-            {currentEmotion === "happy" && "😊"}
-            {currentEmotion === "encouraging" && "👍"}
-            {currentEmotion === "sad" && "😔"}
-            {currentEmotion === "wave" && "👋"}
-          </div>
+      <div className={`${getSizeClasses()} relative rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 p-2 shadow-lg transition-all duration-300 hover:scale-105`}>
+        {animationData ? (
+          <Lottie 
+            animationData={animationData}
+            loop={currentEmotion === "idle"}
+            className="w-full h-full rounded-full"
+          />
+        ) : (
+          <img
+            src={`/avatars/animated/${currentAvatar}/poster.png`}
+            alt={`Albanian ${currentAvatar.replace('-', ' ')} in traditional dress showing ${currentEmotion} emotion`}
+            className="w-full h-full object-cover rounded-full transition-all duration-500 ease-out"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentAvatar}&backgroundColor=f0f0f0`;
+            }}
+          />
         )}
       </div>
     </div>
@@ -136,7 +148,7 @@ export function AvatarSelector({
             <div className="flex flex-col items-center space-y-3">
               <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden">
                 <img
-                  src={`/avatars/${option.key}.webp`}
+                  src={`/avatars/animated/${option.key}/poster.png`}
                   alt={option.name}
                   className={`w-20 h-20 rounded-full object-cover transition-all duration-300 ${
                     hoveredAvatar === option.key ? 'animate-pulse' : ''

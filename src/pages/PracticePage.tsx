@@ -53,7 +53,7 @@ export default function PracticePage() {
   const [heartsEnabled] = useState(false); // Default disabled
   
   // Avatar states
-  const [avatarEmotion, setAvatarEmotion] = useState<"idle" | "happy" | "encouraging" | "sad">("encouraging");
+  const [avatarEmotion, setAvatarEmotion] = useState<"idle" | "celebrate" | "nod">("idle");
   const [showCulturalTip, setShowCulturalTip] = useState(false);
   const [culturalTip, setCulturalTip] = useState("");
   
@@ -184,8 +184,8 @@ export default function PracticePage() {
     setShowResult(true);
     
     // Avatar reactions
-    setAvatarEmotion(correct ? "happy" : "sad");
-    setTimeout(() => setAvatarEmotion("idle"), 1500);
+    setAvatarEmotion(correct ? "celebrate" : "nod");
+    setTimeout(() => setAvatarEmotion("idle"), 1200);
     
     // Check for cultural tip (every 3-5 questions)
     if (sessionStats.questionsAnswered > 0 && sessionStats.questionsAnswered % 4 === 0) {
@@ -254,7 +254,7 @@ export default function PracticePage() {
       setShowEndModal(true);
     } else {
       setCurrentIndex(currentIndex + 1);
-      setAvatarEmotion("encouraging");
+      setAvatarEmotion("idle");
     }
   };
 
