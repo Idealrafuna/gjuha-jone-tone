@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Badge } from "@/components/ui/badge";
+import { BackButton } from "@/components/BackButton";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,6 +32,7 @@ const CityDetail = () => {
   return (
     <main className="container mx-auto py-10">
       <Seo title={`City – ${city.name}`} description={city.summary} canonical={`/cities/${city.slug}`} />
+      <BackButton fallbackPath="/cities" />
       <div className="w-full max-w-4xl mx-auto mb-6">
         <img
           src={city.image_url || '/placeholder.svg'}

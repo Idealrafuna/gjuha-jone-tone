@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { BackButton } from "@/components/BackButton";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -127,14 +128,17 @@ const LessonDetail = () => {
   return (
     <main className="container mx-auto py-10">
       <Seo title={`Lesson – ${lesson.title}`} description={lesson.summary} canonical={`/lessons/${lesson.slug}`} />
-
-      <img
-        src={lesson.cover_image_url || '/placeholder.svg'}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
-        alt={`${lesson.title} cover image`}
-        loading="lazy"
-        className="w-full h-56 object-cover rounded-lg mb-4"
-      />
+      <BackButton fallbackPath="/learn" />
+      
+      <div className="w-full max-w-4xl mx-auto mb-6">
+        <img
+          src={lesson.cover_image_url || '/placeholder.svg'}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
+          alt={`${lesson.title} cover image`}
+          loading="lazy"
+          className="w-full h-auto object-contain rounded-lg shadow-lg"
+        />
+      </div>
 
       <div className="mb-4"><Badge variant="secondary">{lesson.level}</Badge></div>
       <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>

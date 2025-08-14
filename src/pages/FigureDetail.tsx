@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Seo } from "@/components/Seo";
 import { Badge } from "@/components/ui/badge";
+import { BackButton } from "@/components/BackButton";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,13 +32,16 @@ const FigureDetail = () => {
   return (
     <main className="container mx-auto py-10">
       <Seo title={`Figure – ${figure.name}`} description={`${figure.name} – ${figure.era}, ${figure.field}`} canonical={`/figures/${figure.slug}`} />
-      <img
-        src={figure.image_url || '/placeholder.svg'}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
-        alt={`${figure.name} image`}
-        loading="lazy"
-        className="w-full h-56 object-cover rounded-lg mb-4"
-      />
+      <BackButton fallbackPath="/figures" />
+      <div className="w-full max-w-4xl mx-auto mb-6">
+        <img
+          src={figure.image_url || '/placeholder.svg'}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
+          alt={`${figure.name} image`}
+          loading="lazy"
+          className="w-full h-auto object-contain rounded-lg shadow-lg"
+        />
+      </div>
       <div className="mb-3 flex gap-2">
         <Badge variant="secondary">{figure.era}</Badge>
         <Badge variant="secondary">{figure.field}</Badge>
