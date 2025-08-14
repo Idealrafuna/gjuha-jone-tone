@@ -14,6 +14,7 @@ import SignIn from "./pages/SignIn";
 import Onboarding from "./pages/Onboarding";
 import LessonsPage from "./pages/LessonsPage";
 import LessonDetail from "./pages/LessonDetail";
+import PracticePage from "./pages/PracticePage";
 import Review from "./pages/Review";
 import CultureCities from "./pages/CultureCities";
 import CultureCityDetail from "./pages/CultureCityDetail";
@@ -63,6 +64,7 @@ const App = () => (
 
           <Route path="/learn" element={<LessonsPage />} />
           <Route path="/lessons/:slug" element={<LessonDetail />} />
+          <Route path="/learn/:slug/practice" element={<PracticePage />} />
           <Route path="/learn/review" element={<Review />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />

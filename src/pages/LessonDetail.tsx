@@ -6,6 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { BackButton } from "@/components/BackButton";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Play } from "lucide-react";
 
 interface Lesson {
   id: string;
@@ -140,7 +143,15 @@ const LessonDetail = () => {
         />
       </div>
 
-      <div className="mb-4"><Badge variant="secondary">{lesson.level}</Badge></div>
+      <div className="mb-4 flex items-center justify-between">
+        <Badge variant="secondary">{lesson.level}</Badge>
+        <Link to={`/learn/${lesson.slug}/practice`}>
+          <Button className="gap-2">
+            <Play className="h-4 w-4" />
+            Start Practice
+          </Button>
+        </Link>
+      </div>
       <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
       <p className="text-muted-foreground mb-6">{lesson.summary}</p>
 

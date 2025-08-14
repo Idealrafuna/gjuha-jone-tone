@@ -3,8 +3,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import VoiceButton from "@/components/VoiceButton";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { Play } from "lucide-react";
 
 // Types
 export type Dialect = "gheg" | "tosk";
@@ -176,11 +179,23 @@ export default function LessonsPage() {
             ) : (
               <>
                 {/* Sub-tabs for lessons in this level */}
-                <LessonSubTabs
-                  lessons={activeLessons}
-                  activeLessonId={activeLessonId}
-                  onChange={setActiveLessonId}
-                />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex-1">
+                    <LessonSubTabs
+                      lessons={activeLessons}
+                      activeLessonId={activeLessonId}
+                      onChange={setActiveLessonId}
+                    />
+                  </div>
+                  {activeLessonId && (
+                    <Link to={`/learn/${activeLessons.find(l => l.id === activeLessonId)?.slug}/practice`}>
+                      <Button size="sm" className="gap-2 ml-4">
+                        <Play className="h-3 w-3" />
+                        Practice
+                      </Button>
+                    </Link>
+                  )}
+                </div>
 
                 {/* Progress bar (placeholder 100%) */}
                 <div className="space-y-2">
