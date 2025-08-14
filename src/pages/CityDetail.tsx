@@ -31,13 +31,15 @@ const CityDetail = () => {
   return (
     <main className="container mx-auto py-10">
       <Seo title={`City – ${city.name}`} description={city.summary} canonical={`/cities/${city.slug}`} />
-      <img
-        src={city.image_url || '/placeholder.svg'}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
-        alt={`${city.name} image`}
-        loading="lazy"
-        className="w-full h-56 object-cover rounded-lg mb-4"
-      />
+      <div className="w-full max-w-4xl mx-auto mb-6">
+        <img
+          src={city.image_url || '/placeholder.svg'}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
+          alt={`${city.name} image`}
+          loading="lazy"
+          className="w-full h-auto object-contain rounded-lg shadow-lg"
+        />
+      </div>
       <div className="mb-3 flex gap-2">
         <Badge variant="secondary">{city.country}</Badge>
         <Badge variant="secondary">{city.region}</Badge>
