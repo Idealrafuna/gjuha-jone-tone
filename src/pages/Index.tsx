@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import heroImage from "@/assets/hero-tirana.jpg";
 import { ProgressStreak } from "@/components/ProgressStreak";
-import { AvatarGuide } from "@/components/AvatarGuide";
+import AvatarGuide from "@/components/AvatarGuide";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
@@ -63,8 +63,8 @@ const Index = () => {
         {userName && (
           <div className="absolute top-4 left-4 z-10">
             <AvatarGuide 
-              emotion="encouraging"
-              size="md"
+              emotion="wave"
+              size="lg"
               showSpeechBubble={true}
               speechText={`Përshëndetje, ${userName}! Ready to continue learning?`}
             />

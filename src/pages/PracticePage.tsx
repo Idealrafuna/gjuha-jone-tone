@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { BackButton } from "@/components/BackButton";
-import { AvatarGuide } from "@/components/AvatarGuide";
+import AvatarGuide from "@/components/AvatarGuide";
 import { getRandomTip } from "@/data/culturalTips";
 import { Flame, Trophy, Heart, Zap } from "lucide-react";
 import { QuestionEngine, Question, PracticeItem, getSpacedRepetitionInterval, updateEase, VocabItem, QuizItem } from "@/components/practice/QuestionEngine";
@@ -53,7 +53,7 @@ export default function PracticePage() {
   const [heartsEnabled] = useState(false); // Default disabled
   
   // Avatar states
-  const [avatarEmotion, setAvatarEmotion] = useState<"neutral" | "happy" | "encouraging" | "sad">("encouraging");
+  const [avatarEmotion, setAvatarEmotion] = useState<"idle" | "happy" | "encouraging" | "sad">("encouraging");
   const [showCulturalTip, setShowCulturalTip] = useState(false);
   const [culturalTip, setCulturalTip] = useState("");
   
@@ -185,7 +185,7 @@ export default function PracticePage() {
     
     // Avatar reactions
     setAvatarEmotion(correct ? "happy" : "sad");
-    setTimeout(() => setAvatarEmotion("neutral"), 1500);
+    setTimeout(() => setAvatarEmotion("idle"), 1500);
     
     // Check for cultural tip (every 3-5 questions)
     if (sessionStats.questionsAnswered > 0 && sessionStats.questionsAnswered % 4 === 0) {

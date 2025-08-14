@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 
-type Emotion = "neutral" | "happy" | "encouraging" | "sad";
+type Emotion = "idle" | "happy" | "encouraging" | "sad" | "wave";
 type Size = "sm" | "md" | "lg";
+type AvatarKey = "northern-man" | "northern-woman" | "southern-man" | "southern-woman";
 
 interface AvatarGuideProps {
   emotion?: Emotion;
@@ -10,36 +11,39 @@ interface AvatarGuideProps {
   showSpeechBubble?: boolean;
   speechText?: string;
   className?: string;
+  avatarOverride?: AvatarKey; // For preview in onboarding
 }
 
-interface AvatarPreferences {
-  avatarGender: "male" | "female";
-  avatarStyle: "gheg" | "tosk";
+interface AvatarSelectorProps {
+  selectedAvatar: AvatarKey;
+  onAvatarChange: (avatar: AvatarKey) => void;
+  previewEmotion?: Emotion;
 }
 
-export const AvatarGuide = ({ 
-  emotion = "neutral", 
+const avatarOptions = [
+  { key: "northern-man" as AvatarKey, name: "Northern Man", description: "Traditional Gheg costume with plis hat" },
+  { key: "northern-woman" as AvatarKey, name: "Northern Woman", description: "Embroidered northern dress with scarf" },
+  { key: "southern-man" as AvatarKey, name: "Southern Man", description: "Traditional Tosk fustanella and vest" },
+  { key: "southern-woman" as AvatarKey, name: "Southern Woman", description: "Colorful apron and headscarf" }
+];
+
+export default function AvatarGuide({ 
+  emotion = "idle", 
   size = "md", 
   showSpeechBubble = false,
   speechText = "",
-  className = ""
-}: AvatarGuideProps) => {
-  const [avatarPrefs, setAvatarPrefs] = useState<AvatarPreferences>({
-    avatarGender: "female",
-    avatarStyle: "gheg"
-  });
+  className = "",
+  avatarOverride
+}: AvatarGuideProps) {
+  const [avatarKey, setAvatarKey] = useState<AvatarKey>("northern-woman");
   const [currentEmotion, setCurrentEmotion] = useState<Emotion>(emotion);
 
   useEffect(() => {
-    const savedGender = localStorage.getItem("avatarGender") as "male" | "female" | null;
-    const savedStyle = localStorage.getItem("avatarStyle") as "gheg" | "tosk" | null;
-    const savedDialect = localStorage.getItem("userDialect") as "gheg" | "tosk" | null;
-    
-    setAvatarPrefs({
-      avatarGender: savedGender || "female",
-      avatarStyle: savedStyle || savedDialect || "gheg"
-    });
-  }, []);
+    const savedAvatar = localStorage.getItem("avatarKey") as AvatarKey | null;
+    if (savedAvatar && !avatarOverride) {
+      setAvatarKey(savedAvatar);
+    }
+  }, [avatarOverride]);
 
   useEffect(() => {
     setCurrentEmotion(emotion);
@@ -54,11 +58,17 @@ export const AvatarGuide = ({
     }
   };
 
-  const getAvatarPath = () => {
-    // For now, using placeholder avatars - these would be actual Albanian costume avatars
-    const baseUrl = "/avatars";
-    return `${baseUrl}/${avatarPrefs.avatarGender}-${avatarPrefs.avatarStyle}/${currentEmotion}.webp`;
+  const getAnimationClasses = () => {
+    switch (currentEmotion) {
+      case "wave": return "animate-pulse";
+      case "happy": return "animate-bounce";
+      case "encouraging": return "animate-pulse";
+      case "sad": return "";
+      default: return "hover:scale-105";
+    }
   };
+
+  const currentAvatar = avatarOverride || avatarKey;
 
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
@@ -69,85 +79,71 @@ export const AvatarGuide = ({
         </Card>
       )}
       
-      <div className={`${getSizeClasses()} relative rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 p-2 shadow-lg transition-all duration-300 hover:scale-105`}>
+      <div className={`${getSizeClasses()} relative rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 p-2 shadow-lg transition-all duration-300 ${getAnimationClasses()}`}>
         <img
-          src={getAvatarPath()}
-          alt={`Albanian ${avatarPrefs.avatarGender} in ${avatarPrefs.avatarStyle} traditional dress showing ${currentEmotion} emotion`}
+          src={`/avatars/${currentAvatar}.webp`}
+          alt={`Albanian ${currentAvatar.replace('-', ' ')} in traditional dress showing ${currentEmotion} emotion`}
           className="w-full h-full object-cover rounded-full transition-all duration-500 ease-out"
           onError={(e) => {
-            // Fallback to a simple avatar if image doesn't exist
             const target = e.target as HTMLImageElement;
-            target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarPrefs.avatarGender}-${avatarPrefs.avatarStyle}&backgroundColor=f0f0f0`;
+            target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${currentAvatar}&backgroundColor=f0f0f0`;
           }}
         />
         
         {/* Emotion indicator overlay */}
-        {currentEmotion !== "neutral" && (
+        {currentEmotion !== "idle" && (
           <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs animate-bounce">
             {currentEmotion === "happy" && "😊"}
             {currentEmotion === "encouraging" && "👍"}
             {currentEmotion === "sad" && "😔"}
+            {currentEmotion === "wave" && "👋"}
           </div>
         )}
       </div>
     </div>
   );
-};
-
-// Avatar selection component for onboarding
-interface AvatarOption {
-  gender: "male" | "female";
-  style: "gheg" | "tosk";
-  name: string;
-  description: string;
 }
 
-interface AvatarSelectorProps {
-  selectedGender: "male" | "female";
-  selectedStyle: "gheg" | "tosk";
-  onGenderChange: (gender: "male" | "female") => void;
-  onStyleChange: (style: "gheg" | "tosk") => void;
-}
-
-export const AvatarSelector = ({ 
-  selectedGender, 
-  selectedStyle, 
-  onGenderChange, 
-  onStyleChange 
-}: AvatarSelectorProps) => {
-  const avatarOptions: AvatarOption[] = [
-    { gender: "male", style: "gheg", name: "Northern Man", description: "Traditional Gheg costume with white shirt and red vest" },
-    { gender: "male", style: "tosk", name: "Southern Man", description: "Traditional Tosk fustanella and black vest" },
-    { gender: "female", style: "gheg", name: "Northern Woman", description: "Embroidered northern dress with traditional scarf" },
-    { gender: "female", style: "tosk", name: "Southern Woman", description: "Southern dress with colorful apron and headscarf" }
-  ];
+export function AvatarSelector({ 
+  selectedAvatar, 
+  onAvatarChange, 
+  previewEmotion = "wave" 
+}: AvatarSelectorProps) {
+  const [hoveredAvatar, setHoveredAvatar] = useState<AvatarKey | null>(null);
 
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">Choose your cultural guide:</p>
-      <div className="grid grid-cols-2 gap-3">
+    <div className="space-y-6">
+      <div className="text-center">
+        <h3 className="text-xl font-semibold mb-2">Choose Your Guide</h3>
+        <p className="text-muted-foreground">Your guide will learn with you and share cultural tips.</p>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
         {avatarOptions.map((option) => (
           <button
-            key={`${option.gender}-${option.style}`}
-            className={`p-3 rounded-lg border-2 transition-all hover:scale-105 ${
-              selectedGender === option.gender && selectedStyle === option.style
+            key={option.key}
+            className={`p-4 rounded-2xl border-2 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+              selectedAvatar === option.key
                 ? "border-primary bg-primary/10"
                 : "border-border hover:border-primary/50"
             }`}
-            onClick={() => {
-              onGenderChange(option.gender);
-              onStyleChange(option.style);
-            }}
+            onClick={() => onAvatarChange(option.key)}
+            onMouseEnter={() => setHoveredAvatar(option.key)}
+            onMouseLeave={() => setHoveredAvatar(null)}
+            onFocus={() => setHoveredAvatar(option.key)}
+            onBlur={() => setHoveredAvatar(null)}
           >
-            <div className="flex flex-col items-center space-y-2">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+            <div className="flex flex-col items-center space-y-3">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden">
                 <img
-                  src={`/avatars/${option.gender}-${option.style}/neutral.webp`}
+                  src={`/avatars/${option.key}.webp`}
                   alt={option.name}
-                  className="w-12 h-12 rounded-full object-cover"
+                  className={`w-20 h-20 rounded-full object-cover transition-all duration-300 ${
+                    hoveredAvatar === option.key ? 'animate-pulse' : ''
+                  }`}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${option.gender}-${option.style}&backgroundColor=f0f0f0`;
+                    target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${option.key}&backgroundColor=f0f0f0`;
                   }}
                 />
               </div>
@@ -159,6 +155,18 @@ export const AvatarSelector = ({
           </button>
         ))}
       </div>
+      
+      {/* Live Preview */}
+      <div className="flex justify-center">
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground mb-4">Preview</p>
+          <AvatarGuide 
+            size="lg"
+            emotion={hoveredAvatar ? previewEmotion : "idle"}
+            avatarOverride={selectedAvatar}
+          />
+        </div>
+      </div>
     </div>
   );
-};
+}
