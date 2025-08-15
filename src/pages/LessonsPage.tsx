@@ -61,6 +61,8 @@ export default function LessonsPage() {
         .select("id, slug, title, level, published")
         .eq("published", true)
         .order("title", { ascending: true });
+      
+      console.log("LESSONS:", data, error);
 
       if (cancelled) return;
       if (error) {
@@ -113,6 +115,8 @@ export default function LessonsPage() {
         `
         )
         .eq("lesson_id", activeLessonId);
+      
+      console.log("VOCAB:", data, error);
 
       if (cancelled) return;
       if (error) {

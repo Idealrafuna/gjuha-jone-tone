@@ -42,6 +42,8 @@ const LessonDetail = () => {
           .select('id, slug, title, level, summary, body_markdown, cover_image_url, published')
           .eq('slug', slug)
           .single();
+        
+        console.log("LESSONS:", lessonData, lessonErr);
         if (lessonErr || !lessonData || !lessonData.published) {
           setError('Not found');
           setLoading(false);
@@ -56,15 +58,22 @@ const LessonDetail = () => {
           client.from('grammar_tips').select('id, title, body_markdown').eq('lesson_id', lessonData.id),
           client.from('quizzes').select('id, title').eq('ref_id', lessonData.id).eq('published', true)
         ]);
+        
+        console.log("VOCAB:", vocabRes.data, vocabRes.error);
+        console.log("DIALOGUES:", dialoguesRes.data, dialoguesRes.error);
+        console.log("GRAMMAR_TIPS:", grammarRes.data, grammarRes.error);
+        console.log("QUIZZES:", quizzesRes.data, quizzesRes.error);
 
         if (!vocabRes.error && vocabRes.data) {
           setVocab(vocabRes.data);
           const vIds = vocabRes.data.map((v: any) => v.id);
           if (vIds.length) {
-            const { data: variants } = await client
+            const { data: variants, error: variantsErr } = await client
               .from('vocab_variants')
               .select('vocab_id, dialect, phrase, ipa, audio_url')
               .in('vocab_id', vIds);
+            
+            console.log("VOCAB_VARIANTS:", variants, variantsErr);
             const by: Record<string, any[]> = {};
             (variants || []).forEach((vv: any) => {
               by[vv.vocab_id] = [...(by[vv.vocab_id] || []), vv];
@@ -77,11 +86,13 @@ const LessonDetail = () => {
           setDialogues(dialoguesRes.data);
           const dIds = dialoguesRes.data.map((d: any) => d.id);
           if (dIds.length) {
-            const { data: lines } = await client
+            const { data: lines, error: linesErr } = await client
               .from('dialogue_lines')
               .select('dialogue_id, order_index, speaker, dialect, line, ipa, audio_url')
               .in('dialogue_id', dIds)
               .order('order_index', { ascending: true });
+            
+            console.log("DIALOGUE_LINES:", lines, linesErr);
             const by: Record<string, any[]> = {};
             (lines || []).forEach((ln: any) => {
               by[ln.dialogue_id] = [...(by[ln.dialogue_id] || []), ln];
@@ -95,16 +106,20 @@ const LessonDetail = () => {
         if (!quizzesRes.error && quizzesRes.data) {
           const qIds = quizzesRes.data.map((q: any) => q.id);
           if (qIds.length) {
-            const { data: questions } = await client
+            const { data: questions, error: questionsErr } = await client
               .from('questions')
               .select('id, quiz_id, type, prompt, explanation')
               .in('quiz_id', qIds);
+            
+            console.log("QUESTIONS:", questions, questionsErr);
             if (questions && questions.length) {
               const qsIds = questions.map((q: any) => q.id);
-              const { data: answers } = await client
+              const { data: answers, error: answersErr } = await client
                 .from('answers')
                 .select('question_id, label, is_correct')
                 .in('question_id', qsIds);
+              
+              console.log("ANSWERS:", answers, answersErr);
               // Merge for preview
               const answersByQ: Record<string, any[]> = {};
               (answers || []).forEach((a: any) => {
