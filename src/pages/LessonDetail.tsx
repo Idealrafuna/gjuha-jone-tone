@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Lesson {
   id: string;
@@ -21,6 +21,8 @@ interface Lesson {
   published: boolean;
 }
 
+type SectionType = 'dialogues' | 'vocab' | 'grammar' | 'quiz';
+
 const LessonDetail = () => {
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
@@ -32,6 +34,13 @@ const LessonDetail = () => {
   const [linesByDialogue, setLinesByDialogue] = useState<Record<string, any[]>>({});
   const [grammar, setGrammar] = useState<any[]>([]);
   const [quiz, setQuiz] = useState<any[]>([]);
+  
+  // Navigation state
+  const [activeSection, setActiveSection] = useState<SectionType>('dialogues');
+  const [quizExpanded, setQuizExpanded] = useState(false);
+  const [quizPage, setQuizPage] = useState(0);
+  
+  const QUESTIONS_PER_PAGE = 5;
 
   useEffect(() => {
     const load = async () => {
@@ -143,6 +152,184 @@ const LessonDetail = () => {
   if (loading) return <main className="container mx-auto py-10"><p className="text-sm text-muted-foreground">Loading...</p></main>;
   if (error || !lesson) return <main className="container mx-auto py-10"><p className="text-sm text-muted-foreground">Not found</p></main>;
 
+  const totalQuizPages = Math.ceil(quiz.length / QUESTIONS_PER_PAGE);
+  const paginatedQuiz = quiz.slice(quizPage * QUESTIONS_PER_PAGE, (quizPage + 1) * QUESTIONS_PER_PAGE);
+
+  const sections = [
+    { id: 'dialogues', label: 'Dialogues', count: dialogues.length },
+    { id: 'vocab', label: 'Vocab', count: vocab.length },
+    { id: 'grammar', label: 'Grammar', count: grammar.length },
+    { id: 'quiz', label: 'Quiz', count: quiz.length },
+  ] as const;
+
+  const renderDialogues = () => (
+    <Card>
+      <CardContent className="p-6">
+        <h3 className="font-semibold mb-4 text-lg">Dialogues</h3>
+        {dialogues.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No dialogues yet.</p>
+        ) : (
+          <div className="space-y-6">
+            {dialogues.map((d) => (
+              <div key={d.id}>
+                <h4 className="font-medium mb-3 text-base">{d.title}</h4>
+                <div className="space-y-2">
+                  {(linesByDialogue[d.id] || []).map((ln) => (
+                    <div key={ln.order_index} className="text-sm">
+                      <span className="font-medium text-primary">{ln.speaker}:</span>{' '}
+                      <span className="text-muted-foreground">[{ln.dialect}]</span>{' '}
+                      {ln.line}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const renderVocab = () => (
+    <Card>
+      <CardContent className="p-6">
+        <h3 className="font-semibold mb-4 text-lg">Vocabulary</h3>
+        {vocab.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No vocabulary yet.</p>
+        ) : (
+          <div className="space-y-4">
+            {vocab.map((v) => (
+              <div key={v.id} className="border-b border-border/50 pb-3 last:border-b-0">
+                <div className="font-medium text-base mb-1">{v.base_term}</div>
+                <div className="text-sm text-muted-foreground mb-2">{v.eng_gloss}</div>
+                {v.notes && <div className="text-sm text-muted-foreground italic mb-2">{v.notes}</div>}
+                <div className="flex flex-wrap gap-2">
+                  {(variantsByVocab[v.id] || []).map((vv) => (
+                    <span key={vv.dialect + vv.phrase} className="text-xs bg-muted px-2 py-1 rounded">
+                      [{vv.dialect}] {vv.phrase}
+                      {vv.ipa && <span className="text-muted-foreground ml-1">/{vv.ipa}/</span>}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const renderGrammar = () => (
+    <Card>
+      <CardContent className="p-6">
+        <h3 className="font-semibold mb-4 text-lg">Grammar Tips</h3>
+        {grammar.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No grammar tips yet.</p>
+        ) : (
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            {grammar.map((g) => (
+              <div key={g.id}>
+                <h4 className="font-medium text-base mb-2">{g.title}</h4>
+                <ReactMarkdown>{g.body_markdown}</ReactMarkdown>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  const renderQuiz = () => (
+    <Card>
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-lg">Quiz</h3>
+          {quiz.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setQuizExpanded(!quizExpanded)}
+              className="gap-2"
+            >
+              {quizExpanded ? (
+                <>
+                  <ChevronUp className="h-4 w-4" />
+                  Collapse
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="h-4 w-4" />
+                  Start Quiz
+                </>
+              )}
+            </Button>
+          )}
+        </div>
+
+        {quiz.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No quiz yet.</p>
+        ) : !quizExpanded ? (
+          <p className="text-sm text-muted-foreground">
+            {quiz.length} question{quiz.length !== 1 ? 's' : ''} available. Click "Start Quiz" to begin.
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {totalQuizPages > 1 && (
+              <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                <span>Page {quizPage + 1} of {totalQuizPages} ({quiz.length} total questions)</span>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setQuizPage(Math.max(0, quizPage - 1))}
+                    disabled={quizPage === 0}
+                    className="gap-1"
+                  >
+                    <ChevronLeft className="h-3 w-3" />
+                    Back
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setQuizPage(Math.min(totalQuizPages - 1, quizPage + 1))}
+                    disabled={quizPage === totalQuizPages - 1}
+                    className="gap-1"
+                  >
+                    Next
+                    <ChevronRight className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-4">
+              {paginatedQuiz.map((q: any, idx: number) => (
+                <div key={q.id} className="border border-border rounded-lg p-4">
+                  <div className="font-medium mb-3">
+                    {quizPage * QUESTIONS_PER_PAGE + idx + 1}. {q.prompt}
+                  </div>
+                  <div className="space-y-2">
+                    {(q.answers || []).map((a: any, answerIdx: number) => (
+                      <div key={answerIdx} className={`text-sm p-2 rounded ${a.is_correct ? 'bg-primary/10 text-primary' : 'bg-muted/50'}`}>
+                        {String.fromCharCode(65 + answerIdx)}. {a.label}
+                        {a.is_correct && <span className="ml-2 text-xs">(Correct)</span>}
+                      </div>
+                    ))}
+                  </div>
+                  {q.explanation && (
+                    <div className="mt-3 text-sm text-muted-foreground bg-muted/30 p-3 rounded">
+                      <strong>Explanation:</strong> {q.explanation}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
   return (
     <main className="container mx-auto py-10">
       <Seo title={`Lesson – ${lesson.title}`} description={lesson.summary} canonical={`/lessons/${lesson.slug}`} />
@@ -170,97 +357,39 @@ const LessonDetail = () => {
       <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
       <p className="text-muted-foreground mb-6">{lesson.summary}</p>
 
-      <section className="prose prose-sm dark:prose-invert max-w-none">
+      <section className="prose prose-sm dark:prose-invert max-w-none mb-8">
         <ReactMarkdown>{lesson.body_markdown}</ReactMarkdown>
       </section>
 
-      <section className="mt-8 grid md:grid-cols-2 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold mb-2">Vocabulary</h3>
-            {vocab.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No vocabulary yet.</p>
-            ) : (
-              <ul className="text-sm space-y-2">
-                {vocab.map((v) => (
-                  <li key={v.id}>
-                    <span className="font-medium">{v.base_term}</span> – {v.eng_gloss}
-                    <div className="text-muted-foreground">
-                      {(variantsByVocab[v.id] || []).map((vv) => (
-                        <span key={vv.dialect + vv.phrase} className="mr-2">[{vv.dialect}] {vv.phrase}</span>
-                      ))}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold mb-2">Dialogue</h3>
-            {dialogues.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No dialogues yet.</p>
-            ) : (
-              <div className="space-y-4">
-                {dialogues.map((d) => (
-                  <div key={d.id}>
-                    <h4 className="font-medium mb-1">{d.title}</h4>
-                    <ul className="text-sm text-muted-foreground">
-                      {(linesByDialogue[d.id] || []).map((ln) => (
-                        <li key={ln.order_index}>
-                          <span className="font-medium">{ln.speaker}:</span> [{ln.dialect}] {ln.line}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </section>
+      {/* Section Navigation */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2">
+          {sections.map((section) => (
+            <Button
+              key={section.id}
+              variant={activeSection === section.id ? "default" : "outline"}
+              size="sm"
+              onClick={() => setActiveSection(section.id as SectionType)}
+              className="gap-2"
+            >
+              {section.label}
+              {section.count > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {section.count}
+                </Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+      </div>
 
-      <section className="mt-8 grid md:grid-cols-2 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold mb-2">Grammar tips</h3>
-            {grammar.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No tips yet.</p>
-            ) : (
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                {grammar.map((g) => (
-                  <div key={g.id} className="mb-4">
-                    <h4 className="font-medium">{g.title}</h4>
-                    <ReactMarkdown>{g.body_markdown}</ReactMarkdown>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold mb-2">Preview quiz</h3>
-            {quiz.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No quiz yet.</p>
-            ) : (
-              <ul className="text-sm space-y-3">
-                {quiz.map((q: any) => (
-                  <li key={q.id}>
-                    <div className="font-medium">{q.prompt}</div>
-                    <ul className="list-disc pl-5 text-muted-foreground">
-                      {(q.answers || []).map((a: any, idx: number) => (
-                        <li key={idx} className={a.is_correct ? 'text-primary' : ''}>{a.label}</li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-      </section>
+      {/* Section Content */}
+      <div className="space-y-6">
+        {activeSection === 'dialogues' && renderDialogues()}
+        {activeSection === 'vocab' && renderVocab()}
+        {activeSection === 'grammar' && renderGrammar()}
+        {activeSection === 'quiz' && renderQuiz()}
+      </div>
     </main>
   );
 };
