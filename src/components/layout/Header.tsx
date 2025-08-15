@@ -1,6 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Flame, Search } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/contexts/AuthContext";
+import { Flame, Search, User, LogOut } from "lucide-react";
 
 const navItemClass = ({ isActive }: { isActive: boolean }) =>
   `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -8,6 +11,12 @@ const navItemClass = ({ isActive }: { isActive: boolean }) =>
   }`;
 
 const Header = () => {
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b">
       <nav className="container mx-auto flex items-center justify-between h-16">
@@ -29,14 +38,42 @@ const Header = () => {
           <NavLink to="/dashboard" className={navItemClass}>Përparimi</NavLink>
         </div>
         <div className="flex items-center gap-2">
-          <NavLink to="/sign-in">
-            <Button variant="outline" size="sm">Hyr</Button>
-          </NavLink>
-          <NavLink to="/onboarding">
-            <Button variant="hero" size="sm" className="hidden sm:inline-flex">
-              <Flame className="mr-1"/> Filloni të mësoni
-            </Button>
-          </NavLink>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>
+                      {user.email?.charAt(0).toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem asChild>
+                  <Link to="/dashboard" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <NavLink to="/sign-in">
+                <Button variant="outline" size="sm">Hyr</Button>
+              </NavLink>
+              <NavLink to="/onboarding">
+                <Button variant="hero" size="sm" className="hidden sm:inline-flex">
+                  <Flame className="mr-1"/> Filloni të mësoni
+                </Button>
+              </NavLink>
+            </>
+          )}
         </div>
       </nav>
     </header>

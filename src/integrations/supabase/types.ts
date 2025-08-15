@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
@@ -266,37 +266,49 @@ export type Database = {
           body_markdown: string
           cover_image_url: string | null
           created_at: string
+          dialogues: Json | null
+          grammar_tips: Json | null
           id: string
           level: Database["public"]["Enums"]["lesson_level"]
           published: boolean
+          quiz: Json | null
           slug: string
           summary: string
           title: string
           updated_at: string
+          vocab: Json | null
         }
         Insert: {
           body_markdown: string
           cover_image_url?: string | null
           created_at?: string
+          dialogues?: Json | null
+          grammar_tips?: Json | null
           id?: string
           level: Database["public"]["Enums"]["lesson_level"]
           published?: boolean
+          quiz?: Json | null
           slug: string
           summary: string
           title: string
           updated_at?: string
+          vocab?: Json | null
         }
         Update: {
           body_markdown?: string
           cover_image_url?: string | null
           created_at?: string
+          dialogues?: Json | null
+          grammar_tips?: Json | null
           id?: string
           level?: Database["public"]["Enums"]["lesson_level"]
           published?: boolean
+          quiz?: Json | null
           slug?: string
           summary?: string
           title?: string
           updated_at?: string
+          vocab?: Json | null
         }
         Relationships: []
       }
@@ -523,6 +535,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          preferences: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          preferences?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          preferences?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           id: string
@@ -583,6 +619,7 @@ export type Database = {
           id: string
           lesson_id: string | null
           notes: string | null
+          variants: Json | null
         }
         Insert: {
           base_term: string
@@ -590,6 +627,7 @@ export type Database = {
           id?: string
           lesson_id?: string | null
           notes?: string | null
+          variants?: Json | null
         }
         Update: {
           base_term?: string
@@ -597,6 +635,7 @@ export type Database = {
           id?: string
           lesson_id?: string | null
           notes?: string | null
+          variants?: Json | null
         }
         Relationships: [
           {
@@ -616,6 +655,7 @@ export type Database = {
           ipa: string | null
           phrase: string
           vocab_id: string
+          voice_button: boolean | null
         }
         Insert: {
           audio_url?: string | null
@@ -624,6 +664,7 @@ export type Database = {
           ipa?: string | null
           phrase: string
           vocab_id: string
+          voice_button?: boolean | null
         }
         Update: {
           audio_url?: string | null
@@ -632,6 +673,7 @@ export type Database = {
           ipa?: string | null
           phrase?: string
           vocab_id?: string
+          voice_button?: boolean | null
         }
         Relationships: [
           {
@@ -650,8 +692,8 @@ export type Database = {
     Functions: {
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
@@ -662,7 +704,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "editor" | "user"
-      dialect_type: "gheg" | "tosk"
+      dialect_type: "gheg" | "tosk" | "both"
       lesson_level: "beginner" | "intermediate" | "advanced"
       media_kind: "image" | "audio"
       question_type: "mcq" | "truefalse" | "fill"
@@ -795,7 +837,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "user"],
-      dialect_type: ["gheg", "tosk"],
+      dialect_type: ["gheg", "tosk", "both"],
       lesson_level: ["beginner", "intermediate", "advanced"],
       media_kind: ["image", "audio"],
       question_type: ["mcq", "truefalse", "fill"],

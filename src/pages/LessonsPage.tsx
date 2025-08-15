@@ -5,9 +5,11 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import VoiceButton from "@/components/VoiceButton";
+import { AccessGate } from "@/components/AccessGate";
+import { useAccessControl } from "@/hooks/useAccessControl";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { Play } from "lucide-react";
+import { Play, Lock } from "lucide-react";
 
 // Types
 export type Dialect = "gheg" | "tosk";
@@ -39,6 +41,7 @@ export type VocabRow = {
 
 export default function LessonsPage() {
   const dialect: Dialect = (localStorage.getItem("dialect") as Dialect) || "tosk";
+  const { isPremium, checkLessonAccess, checkVocabAccess, freeLimits } = useAccessControl();
 
   const [level, setLevel] = useState<Level>("beginner");
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -189,6 +192,7 @@ export default function LessonsPage() {
                       lessons={activeLessons}
                       activeLessonId={activeLessonId}
                       onChange={setActiveLessonId}
+                      checkLessonAccess={checkLessonAccess}
                     />
                   </div>
                   {activeLessonId && (
@@ -225,21 +229,34 @@ export default function LessonsPage() {
                   </Card>
                 ) : (
                   <div className="grid sm:grid-cols-2 gap-4">
-                    {vocab.map((row) => {
+                    {vocab.map((row, vocabIndex) => {
                       const picked = pickVariant(row, dialect);
+                      const hasVocabAccess = checkVocabAccess(vocabIndex);
+                      const activeLesson = activeLessons.find(l => l.id === activeLessonId);
+                      const lessonIndex = activeLessons.findIndex(l => l.id === activeLessonId);
+                      const hasLessonAccess = checkLessonAccess(lessonIndex);
+                      
                       return (
-                        <Card key={row.id} className="rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full">
-                          <CardContent className="p-4 flex items-start justify-between gap-3">
-                            <div>
-                              <div className="font-semibold text-xl">{picked.phrase}</div>
-                              <div className="text-sm text-muted-foreground">
-                                EN: {row.eng_gloss}
-                                {picked.ipa && <span className="ml-2 text-xs">/{picked.ipa}/</span>}
+                        <AccessGate
+                          key={row.id}
+                          type="vocab"
+                          index={vocabIndex}
+                          itemName={`${picked.phrase} (${row.eng_gloss})`}
+                          className={hasVocabAccess || hasLessonAccess ? "border-none shadow-none bg-transparent p-0" : ""}
+                        >
+                          <Card className="rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full">
+                            <CardContent className="p-4 flex items-start justify-between gap-3">
+                              <div>
+                                <div className="font-semibold text-xl">{picked.phrase}</div>
+                                <div className="text-sm text-muted-foreground">
+                                  EN: {row.eng_gloss}
+                                  {picked.ipa && <span className="ml-2 text-xs">/{picked.ipa}/</span>}
+                                </div>
                               </div>
-                            </div>
-                            <VoiceButton />
-                          </CardContent>
-                        </Card>
+                              {(hasVocabAccess || hasLessonAccess) && <VoiceButton />}
+                            </CardContent>
+                          </Card>
+                        </AccessGate>
                       );
                     })}
                   </div>
@@ -268,10 +285,12 @@ function LessonSubTabs({
   lessons,
   activeLessonId,
   onChange,
+  checkLessonAccess,
 }: {
   lessons: Lesson[];
   activeLessonId: string | null;
   onChange: (id: string) => void;
+  checkLessonAccess: (index: number) => boolean;
 }) {
   const value = activeLessonId ?? (lessons[0]?.id ?? "");
   return (
@@ -287,11 +306,22 @@ function LessonSubTabs({
       }
     }}>
       <TabsList className="sticky top-14 z-10 bg-background/80 backdrop-blur rounded-xl w-full px-2">
-        {lessons.map((l) => (
-          <TabsTrigger key={l.id} value={l.id} className="whitespace-nowrap rounded-full font-medium data-[state=active]:bg-muted">
-            {l.title}
-          </TabsTrigger>
-        ))}
+        {lessons.map((l, index) => {
+          const hasAccess = checkLessonAccess(index);
+          return (
+            <TabsTrigger 
+              key={l.id} 
+              value={l.id} 
+              disabled={!hasAccess}
+              className={`whitespace-nowrap rounded-full font-medium data-[state=active]:bg-muted ${
+                !hasAccess ? "opacity-50" : ""
+              }`}
+            >
+              {l.title}
+              {!hasAccess && <Lock className="ml-1 h-3 w-3" />}
+            </TabsTrigger>
+          );
+        })}
       </TabsList>
       {lessons.map((l) => (
         <TabsContent key={l.id} value={l.id} />

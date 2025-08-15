@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Seo } from "@/components/Seo";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { Lock, Crown, Check } from 'lucide-react';
 
-const SignIn = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+interface PremiumModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  feature: string;
+}
+
+export const PremiumModal: React.FC<PremiumModalProps> = ({ isOpen, onClose, feature }) => {
+  const [isSignUp, setIsSignUp] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signUp, signIn, signInWithGoogle, user } = useAuth();
+  const { signUp, signIn, signInWithGoogle } = useAuth();
   const { toast } = useToast();
-  const navigate = useNavigate();
-
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate('/', { replace: true });
-    }
-  }, [user, navigate]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,9 +42,9 @@ const SignIn = () => {
           title: isSignUp ? "Account Created!" : "Welcome Back!",
           description: isSignUp 
             ? "Check your email to verify your account." 
-            : "You've been signed in successfully.",
+            : "You now have access to all premium features.",
         });
-        navigate('/');
+        onClose();
       }
     } catch (error) {
       toast({
@@ -83,22 +80,41 @@ const SignIn = () => {
   };
 
   return (
-    <main className="container mx-auto py-10 max-w-md">
-      <Seo title="Sign in – BeAlbanian" description="Sign in to unlock all Albanian learning features." canonical="/sign-in" />
-      
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">
-            {isSignUp ? "Create Account" : "Welcome Back"}
-          </CardTitle>
-          <p className="text-muted-foreground">
-            {isSignUp 
-              ? "Get free access to all lessons, vocabulary, and quizzes" 
-              : "Sign in to continue your Albanian learning journey"
-            }
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader className="text-center space-y-3">
+          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+            <Crown className="w-6 h-6 text-primary" />
+          </div>
+          <DialogTitle className="text-xl">Unlock Premium Features</DialogTitle>
+          <DialogDescription className="text-center">
+            You're trying to access <strong>{feature}</strong>, which is available to premium users.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+            <h4 className="font-semibold text-sm">Premium includes:</h4>
+            <ul className="text-sm space-y-1">
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                All lessons and vocabulary
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                Unlimited quizzes and practice
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                Progress tracking
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                Cultural content
+              </li>
+            </ul>
+          </div>
+
           <Button 
             onClick={handleGoogleAuth} 
             variant="outline" 
@@ -148,10 +164,8 @@ const SignIn = () => {
               {isSignUp ? "Already have an account? Sign in" : "Need an account? Sign up"}
             </button>
           </div>
-        </CardContent>
-      </Card>
-    </main>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
-
-export default SignIn;
