@@ -86,18 +86,20 @@ export default function ShqipDashGame({
   }, [mode]);
 
   // Countdown timer
-  useEffect(() => {
-    if (!playing || ended) return;
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const elapsed = now - start;
-      setTimeLeft((prev) => Math.max(0, prev - (now - (now - elapsed))));
-      raf = requestAnimationFrame(tick);
-    };
+  // Countdown timer
+useEffect(() => {
+  if (!playing || ended) return;
+  const start = performance.now();
+  let raf = 0;
+  const tick = (now: number) => {
+    const elapsed = now - start;
+    setTimeLeft((prev) => Math.max(0, prev - (now - (now - elapsed))));
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [playing, ended]);
+  };
+  raf = requestAnimationFrame(tick);
+  return () => cancelAnimationFrame(raf);
+}, [playing, ended]);
+
 
   // End by time
   useEffect(() => {
