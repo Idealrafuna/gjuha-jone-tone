@@ -282,7 +282,7 @@ function LessonSubTabs({
         }
       }
     }}>
-      <TabsList className="sticky top-14 z-10 bg-background/80 backdrop-blur rounded-xl w-full overflow-x-auto whitespace-nowrap px-2">
+      <TabsList className="sticky top-14 z-10 bg-background/80 backdrop-blur rounded-xl w-full px-2">
         {lessons.map((l) => (
           <TabsTrigger key={l.id} value={l.id} className="whitespace-nowrap rounded-full font-medium data-[state=active]:bg-muted">
             {l.title}
