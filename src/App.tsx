@@ -44,6 +44,8 @@ import ValleDancePage from "./pages/ValleDancePage";
 import MapQuestPage from "./pages/MapQuestPage";
 import GjyshjasKitchenPage from "./pages/GjyshjasKitchenPage";
 import DressShqiponjaPage from "./pages/DressShqiponjaPage";
+import KinshipTreePage from "./pages/KinshipTreePage";
+import MyRelativesPage from "./pages/MyRelativesPage";
 
 const queryClient = new QueryClient();
 
@@ -78,6 +80,9 @@ const App = () => (
           <Route path="/map-quest" element={<MapQuestPage />} />
           <Route path="/gjyshjas-kitchen" element={<GjyshjasKitchenPage />} />
           <Route path="/dress-shqiponja" element={<DressShqiponjaPage />} />
+
+          <Route path="/kinship" element={<KinshipTreePage />} />
+          <Route path="/relatives" element={<MyRelativesPage />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />
           <Route path="/culture/cities/:slug" element={<CultureCityDetail />} />

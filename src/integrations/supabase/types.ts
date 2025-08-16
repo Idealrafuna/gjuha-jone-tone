@@ -229,6 +229,105 @@ export type Database = {
           },
         ]
       }
+      kinship_relationships: {
+        Row: {
+          created_at: string | null
+          from_relative: string
+          id: string
+          relation_type: string
+          to_relative: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          from_relative: string
+          id?: string
+          relation_type: string
+          to_relative: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          from_relative?: string
+          id?: string
+          relation_type?: string
+          to_relative?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kinship_relationships_from_relative_fkey"
+            columns: ["from_relative"]
+            isOneToOne: false
+            referencedRelation: "kinship_relatives"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kinship_relationships_to_relative_fkey"
+            columns: ["to_relative"]
+            isOneToOne: false
+            referencedRelation: "kinship_relatives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kinship_relatives: {
+        Row: {
+          birth_year: number | null
+          created_at: string | null
+          death_year: number | null
+          full_name: string
+          id: string
+          notes: string | null
+          photo_path: string | null
+          user_id: string
+        }
+        Insert: {
+          birth_year?: number | null
+          created_at?: string | null
+          death_year?: number | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          photo_path?: string | null
+          user_id: string
+        }
+        Update: {
+          birth_year?: number | null
+          created_at?: string | null
+          death_year?: number | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          photo_path?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      kinship_settings: {
+        Row: {
+          created_at: string | null
+          dialect: string | null
+          is_public: boolean | null
+          public_slug: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dialect?: string | null
+          is_public?: boolean | null
+          public_slug?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dialect?: string | null
+          is_public?: boolean | null
+          public_slug?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_sections: {
         Row: {
           created_at: string
