@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Clock, Heart, Trophy, Play, Pause, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,6 +67,7 @@ export default function MapQuestGame({
   const [draggedCity, setDraggedCity] = useState<string | null>(null);
   const [droppedPositions, setDroppedPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [mapBounds, setMapBounds] = useState<DOMRect | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
 
   const config = useMemo(() => {
     if (mode === "premium") {
@@ -84,6 +85,19 @@ export default function MapQuestGame({
       xpBonus: 30,
     };
   }, [mode]);
+
+  // Update map bounds
+  useEffect(() => {
+    const updateBounds = () => {
+      if (mapRef.current) {
+        setMapBounds(mapRef.current.getBoundingClientRect());
+      }
+    };
+    
+    updateBounds();
+    window.addEventListener('resize', updateBounds);
+    return () => window.removeEventListener('resize', updateBounds);
+  }, []);
 
   // Initialize new round
   const startNewRound = useCallback(() => {
@@ -280,11 +294,9 @@ export default function MapQuestGame({
         {/* Map Area */}
         <div className="flex-1 relative">
           <div 
+            ref={mapRef}
             className="w-full h-full max-h-[500px] lg:max-h-none bg-green-100 rounded-xl border-4 border-green-600 relative cursor-crosshair"
             onClick={handleMapClick}
-            ref={(el) => {
-              if (el) setMapBounds(el.getBoundingClientRect());
-            }}
           >
             {/* Albania + Kosovo outline SVG */}
             <svg
