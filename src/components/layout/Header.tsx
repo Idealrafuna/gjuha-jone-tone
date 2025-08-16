@@ -48,6 +48,9 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <NavLink to="/map-quest">Map Quest: Cities</NavLink>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink to="/gjyshjas-kitchen">Gjyshja's Kitchen</NavLink>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>
