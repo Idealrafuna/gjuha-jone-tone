@@ -40,6 +40,7 @@ import Traditions from "./pages/Traditions";
 import TraditionDetail from "./pages/TraditionDetail";
 import DebugData from "./pages/DebugData";
 import ShqipDashPage from "./pages/ShqipDashPage";
+import ValleDancePage from "./pages/ValleDancePage";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/learn/:slug/practice" element={<PracticePage />} />
           <Route path="/learn/review" element={<Review />} />
           <Route path="/shqip-dash" element={<ShqipDashPage />} />
+          <Route path="/valle-dance" element={<ValleDancePage />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />
           <Route path="/culture/cities/:slug" element={<CultureCityDetail />} />

@@ -32,9 +32,21 @@ const Header = () => {
             <span className="inline-flex items-center gap-1"><Search className="size-4"/> Eksploro</span>
           </NavLink>
           <NavLink to="/learn" className={navItemClass}>Mëso</NavLink>
-          <NavLink to="/shqip-dash" className={navItemClass}>
-            🎮 Games
-          </NavLink>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className={navItemClass({ isActive: false })}>
+                🎮 Games
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <NavLink to="/shqip-dash">Shqip Dash</NavLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink to="/valle-dance">Valle Dance Moves</NavLink>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>
           <NavLink to="/figures" className={navItemClass}>Figura</NavLink>
           <NavLink to="/traditions" className={navItemClass}>Tradita</NavLink>
