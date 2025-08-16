@@ -45,6 +45,9 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <NavLink to="/valle-dance">Valle Dance Moves</NavLink>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink to="/map-quest">Map Quest: Cities</NavLink>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>

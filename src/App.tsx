@@ -41,6 +41,7 @@ import TraditionDetail from "./pages/TraditionDetail";
 import DebugData from "./pages/DebugData";
 import ShqipDashPage from "./pages/ShqipDashPage";
 import ValleDancePage from "./pages/ValleDancePage";
+import MapQuestPage from "./pages/MapQuestPage";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,7 @@ const App = () => (
           <Route path="/learn/review" element={<Review />} />
           <Route path="/shqip-dash" element={<ShqipDashPage />} />
           <Route path="/valle-dance" element={<ValleDancePage />} />
+          <Route path="/map-quest" element={<MapQuestPage />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />
           <Route path="/culture/cities/:slug" element={<CultureCityDetail />} />
