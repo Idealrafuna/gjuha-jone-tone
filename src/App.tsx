@@ -46,6 +46,7 @@ import GjyshjasKitchenPage from "./pages/GjyshjasKitchenPage";
 import DressShqiponjaPage from "./pages/DressShqiponjaPage";
 import KinshipTreePage from "./pages/KinshipTreePage";
 import MyRelativesPage from "./pages/MyRelativesPage";
+import QuestsPage from "./pages/QuestsPage";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +84,7 @@ const App = () => (
 
           <Route path="/kinship" element={<KinshipTreePage />} />
           <Route path="/relatives" element={<MyRelativesPage />} />
+          <Route path="/quests" element={<QuestsPage />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />
           <Route path="/culture/cities/:slug" element={<CultureCityDetail />} />

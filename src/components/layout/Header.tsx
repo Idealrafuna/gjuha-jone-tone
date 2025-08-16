@@ -57,6 +57,7 @@ const Header = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <NavLink to="/kinship" className={navItemClass}>👪 Kinship</NavLink>
+          <NavLink to="/quests" className={navItemClass}>🎯 Quests</NavLink>
           <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>
           <NavLink to="/figures" className={navItemClass}>Figura</NavLink>
           <NavLink to="/traditions" className={navItemClass}>Tradita</NavLink>
