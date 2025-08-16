@@ -43,6 +43,7 @@ import ShqipDashPage from "./pages/ShqipDashPage";
 import ValleDancePage from "./pages/ValleDancePage";
 import MapQuestPage from "./pages/MapQuestPage";
 import GjyshjasKitchenPage from "./pages/GjyshjasKitchenPage";
+import DressShqiponjaPage from "./pages/DressShqiponjaPage";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => (
           <Route path="/valle-dance" element={<ValleDancePage />} />
           <Route path="/map-quest" element={<MapQuestPage />} />
           <Route path="/gjyshjas-kitchen" element={<GjyshjasKitchenPage />} />
+          <Route path="/dress-shqiponja" element={<DressShqiponjaPage />} />
 
           <Route path="/culture/cities" element={<CultureCities />} />
           <Route path="/culture/cities/:slug" element={<CultureCityDetail />} />

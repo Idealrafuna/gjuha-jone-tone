@@ -51,6 +51,9 @@ const Header = () => {
               <DropdownMenuItem asChild>
                 <NavLink to="/gjyshjas-kitchen">Gjyshja's Kitchen</NavLink>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <NavLink to="/dress-shqiponja">👗 Dress the Shqiponja</NavLink>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <NavLink to="/cities" className={navItemClass}>Qytete</NavLink>
